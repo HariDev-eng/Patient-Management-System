@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: patient-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - "5000:5432"
+    networks:
+      - internal
+
+  app:
+    build: .
+    container_name: patient-service
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_SQL_INIT_MODE: never
+
+      BILLING_SERVICE_ADDRESS: billing-service
+      BILLING_SERVICE_GRPC_PORT: 9001
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
