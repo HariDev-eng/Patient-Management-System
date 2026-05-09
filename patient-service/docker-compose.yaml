@@ -11,11 +11,9 @@ services:
     networks:
       - internal
 
-  app:
+  patient-service:
     build: .
     container_name: patient-service
-    ports:
-      - "4000:4000"
     depends_on:
       - db
     environment:
