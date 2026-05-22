@@ -2,6 +2,7 @@ package com.pm.authservice.controller;
 
 import com.pm.authservice.dto.LoginRequestDTO;
 import com.pm.authservice.dto.LoginResponseDTO;
+import com.pm.authservice.dto.SignupRequestDTO;
 import com.pm.authservice.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -44,5 +45,24 @@ public class AuthController {
         return authService.validateToken(authHeader.substring(7))
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+
+    @PostMapping("/signup")
+    public ResponseEntity<LoginResponseDTO> signup(
+            @RequestBody SignupRequestDTO signupRequestDTO) {
+
+        Optional<String> tokenOptional =
+                authService.signup(signupRequestDTO);
+
+        if(tokenOptional.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .build();
+        }
+
+        return ResponseEntity.ok(
+                new LoginResponseDTO(tokenOptional.get())
+        );
     }
 }
