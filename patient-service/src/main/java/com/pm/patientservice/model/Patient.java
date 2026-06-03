@@ -1,83 +1,67 @@
 package com.pm.patientservice.model;
 
+import com.pm.patientservice.enums.BloodGroup;
+import com.pm.patientservice.enums.Gender;
+import com.pm.patientservice.enums.PatientStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "patients")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Patient {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID patientId;
 
-    @NotNull
-    private String name;
+    private String firstName;
 
-    @NotNull
+    private String lastName;
+
+    private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String phone;
+
     @Email
     @Column(unique = true)
     private String email;
 
-    @NotNull
     private String address;
 
-    @NotNull
-    private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
+    private BloodGroup bloodGroup;
 
-    @NotNull
-    private LocalDate registeredDate;
+    private String emergencyContactName;
 
+    private String emergencyContactPhone;
 
-//Getter and Setters for the patient
-    public UUID getId() {
-        return id;
-    }
+    private String allergies;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    private String medicalConditions;
 
-    public String getName() {
-        return name;
-    }
+    private String insuranceProvider;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String insuranceNumber;
 
-    public String getEmail() {
-        return email;
-    }
+    private UUID primaryDoctorId;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @Enumerated(EnumType.STRING)
+    private PatientStatus status;
 
-    public String getAddress() {
-        return address;
-    }
+    private LocalDateTime registeredAt;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public LocalDate getRegisteredDate() {
-        return registeredDate;
-    }
-
-    public void setRegisteredDate(LocalDate registeredDate) {
-        this.registeredDate = registeredDate;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
+    private LocalDateTime updatedAt;
 }

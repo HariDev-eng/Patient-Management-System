@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db@localhost" uuid="7437d7ff-e1a5-4539-8795-157f1a6d3808">
+    <data-source source="LOCAL" name="auth_db@localhost" uuid="2ee4ca97-621c-4072-b37d-15678f36c787">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5000/db</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5001/auth_db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
@@ -13,11 +13,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="auth_db@localhost" uuid="2ee4ca97-621c-4072-b37d-15678f36c787">
+    <data-source source="LOCAL" name="db@localhost" uuid="9bd66284-1f27-4c94-bf4d-d3a8d3d17178">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5001/auth_db</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5000/db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

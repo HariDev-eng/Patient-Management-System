@@ -1,7 +1,29 @@
 services:
+  billing-db:
+    image: postgres:17
+    container_name: billing-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: billing_db
+    ports:
+      - "5002:5432"
+    volumes:
+      - billing_db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
   billing-service:
     build: .
     container_name: billing-service
+    depends_on:
+      - billing-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://billing-db:5432/billing_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_SQL_INIT_MODE: never
     ports:
       - "4001:4001"
       - "9001:9001"
@@ -11,3 +33,6 @@ services:
 networks:
   internal:
     external: true
+
+volumes:
+  billing_db_data:
