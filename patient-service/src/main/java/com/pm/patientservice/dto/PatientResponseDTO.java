@@ -1,54 +1,54 @@
 package com.pm.patientservice.dto;
 
+import com.pm.patientservice.enums.BloodGroup;
+import com.pm.patientservice.enums.Gender;
+import com.pm.patientservice.enums.PatientStatus;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Data
+@Builder
 public class PatientResponseDTO {
-    private String id;
-    private String name;
+
+    private UUID patientId;
+
+    private String firstName;
+
+    private String lastName;
+
+    private LocalDate dateOfBirth;
+
+    private Gender gender;
+
+    private String phone;
+
     private String email;
+
     private String address;
-    private String dateOfBirth;
 
+    private BloodGroup bloodGroup;
 
-    public String getId() {
-        return id;
-    }
+    private String emergencyContactName;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String emergencyContactPhone;
 
-    public String getName() {
-        return name;
-    }
+    private String allergies;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String medicalConditions;
 
-    public String getEmail() {
-        return email;
-    }
+    private String insuranceProvider;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    private String insuranceNumber;
 
-    public String getAddress() {
-        return address;
-    }
+    private UUID primaryDoctorId;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    private PatientStatus status;
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
+    private LocalDateTime registeredAt;
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void set() {
-
-    }
+    private LocalDateTime updatedAt;
 }

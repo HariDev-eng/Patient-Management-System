@@ -1,15 +1,39 @@
 services:
+  analytics-db:
+    image: postgres:17
+    container_name: analytics-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: analytics_db
+    ports:
+      - "5003:5432"
+    volumes:
+      - analytics_db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
   analytics-service:
     build: .
     image: analytics-service:latest
     container_name: analytics-service
+    depends_on:
+      - analytics-db
     ports:
       - "4002:4002"
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATASOURCE_URL: jdbc:postgresql://analytics-db:5432/analytics_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_SQL_INIT_MODE: never
     networks:
       - internal
 
 networks:
   internal:
     external: true
+
+volumes:
+  analytics_db_data:
