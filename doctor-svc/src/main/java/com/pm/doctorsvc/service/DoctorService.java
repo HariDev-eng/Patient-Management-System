@@ -6,6 +6,7 @@ import com.pm.doctorsvc.enums.Specialization;
 import com.pm.doctorsvc.exception.DoctorNotFoundException;
 import com.pm.doctorsvc.exception.EmailAlreadyExistsException;
 import com.pm.doctorsvc.exception.LicenseAlreadyExistsException;
+import com.pm.doctorsvc.kafka.KafkaProducer;
 import com.pm.doctorsvc.mapper.DoctorMapper;
 import com.pm.doctorsvc.model.Doctor;
 import com.pm.doctorsvc.repository.DoctorRepository;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DoctorService {
 
+    private final KafkaProducer kafkaProducer;
     private final DoctorRepository doctorRepository;
 
     public List<DoctorResponseDTO> getDoctors() {
@@ -52,11 +54,14 @@ public class DoctorService {
                             + doctorRequestDTO.getLicenseNumber());
         }
 
+
         Doctor doctor =
                 DoctorMapper.toEntity(doctorRequestDTO);
 
         Doctor savedDoctor =
                 doctorRepository.save(doctor);
+
+        kafkaProducer.publishDoctorCreated(savedDoctor);
 
         return DoctorMapper.toDTO(savedDoctor);
     }
@@ -115,6 +120,8 @@ public class DoctorService {
 
         Doctor updatedDoctor =
                 doctorRepository.save(existingDoctor);
+
+        kafkaProducer.publishDoctorUpdated(updatedDoctor);
 
         return DoctorMapper.toDTO(updatedDoctor);
     }
