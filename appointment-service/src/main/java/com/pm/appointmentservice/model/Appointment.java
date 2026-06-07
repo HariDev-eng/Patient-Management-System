@@ -1,0 +1,39 @@
+package com.pm.appointmentservice.model;
+
+import com.pm.appointmentservice.enums.AppointmentStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "appointments")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Appointment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID appointmentId;
+
+    private UUID patientId;
+
+    private UUID doctorId;
+
+    private LocalDateTime appointmentDateTime;
+
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
+    private String reason;
+
+    private String notes;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+}
