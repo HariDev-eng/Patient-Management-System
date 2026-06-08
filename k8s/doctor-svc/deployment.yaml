@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: doctor-svc
-          image: your-dockerhub-username/doctor-svc:latest
+          image: haripradap09/doctor-svc:1
           ports:
             - containerPort: 4006
           env:

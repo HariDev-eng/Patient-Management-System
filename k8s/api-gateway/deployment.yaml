@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: your-dockerhub-username/api-gateway:latest
+          image: haripradap09/api-gateway:1
           ports:
             - containerPort: 4004
           resources:

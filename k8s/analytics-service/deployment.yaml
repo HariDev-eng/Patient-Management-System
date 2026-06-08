@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: analytics-service
-          image: your-dockerhub-username/analytics-service:latest
+          image: haripradap09/analytics-service:1
           ports:
             - containerPort: 4002
           env:

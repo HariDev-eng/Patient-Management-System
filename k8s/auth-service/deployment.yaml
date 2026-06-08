@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: your-dockerhub-username/auth-service:latest
+          image: haripradap09/auth-service:1
           ports:
             - containerPort: 4005
           resources:

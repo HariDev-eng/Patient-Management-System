@@ -1,5 +1,5 @@
 # HOW WE READ THIS:
-# docker-compose.yaml → image: provectuslabs/kafka-ui:latest
+# docker-compose.yaml → image: provectuslabs/kafka-ui:1
 # docker-compose.yaml → KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 apiVersion: apps/v1
 kind: Deployment
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: kafka-ui
-          image: provectuslabs/kafka-ui:latest
+          image: provectuslabs/kafka-ui:1
           ports:
             - containerPort: 8080
           env:

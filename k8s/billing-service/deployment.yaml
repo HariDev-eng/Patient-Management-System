@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: billing-service
-          image: your-dockerhub-username/billing-service:latest
+          image: haripradap09/billing-service:1
           ports:
             - name: http
               containerPort: 4001
