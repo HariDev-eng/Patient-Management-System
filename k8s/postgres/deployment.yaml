@@ -1,0 +1,40 @@
+# HOW WE READ THIS:
+# patient-service application.properties:
+#   spring.datasource.url=jdbc:postgresql://localhost:5000/db  → DB name: db
+#   spring.datasource.username=admin_user
+#   spring.datasource.password=password
+# In K8s: localhost:5000 becomes postgres:5432
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "db"
+            - name: POSTGRES_USER
+              value: "admin_user"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"

@@ -1,0 +1,42 @@
+# HOW WE READ THIS FROM YOUR CODE:
+# Dockerfile: EXPOSE 4002                        → containerPort: 4002
+# application.properties: no server.port         → Dockerfile wins → 4002
+# application.properties: spring.kafka.bootstrap-servers=kafka:9092 → already correct!
+# analytics only CONSUMES from kafka, no DB needed
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        app: analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: your-dockerhub-username/analytics-service:latest
+          ports:
+            - containerPort: 4002
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: KAFKA_BOOTSTRAP_SERVERS
+            - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+              value: "analytics-group"
+            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: "earliest"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "384Mi"
+              cpu: "300m"
