@@ -21,4 +21,6 @@ public class AppointmentRequestDTO {
     private LocalDateTime appointmentDateTime;
 
     private String reason;
+
+    private String notes;
 }

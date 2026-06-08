@@ -1,0 +1,41 @@
+services:
+
+  appointment-db:
+    image: postgres:17
+    container_name: appointment-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appointment_db
+    ports:
+      - "5007:5432"
+    volumes:
+      - appointment_db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  appointment-service:
+    build: .
+    image: appointment-service:latest
+    container_name: appointment-service
+    depends_on:
+      - appointment-db
+    ports:
+      - "4007:4007"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://appointment-db:5432/appointment_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: never
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
+
+volumes:
+  appointment_db_data:
