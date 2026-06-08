@@ -29,7 +29,6 @@ public class AppointmentMapper {
                 .reason(appointment.getReason())
                 .notes(appointment.getNotes())
                 .status(appointment.getStatus())
-                .createdAt(appointment.getCreatedAt())
                 .build();
     }
 }

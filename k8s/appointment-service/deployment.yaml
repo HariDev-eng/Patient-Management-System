@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: appointment-service
-          image: your-dockerhub-username/appointment-service:latest
+          image: haripradap09/appointment-service:1
           ports:
             - containerPort: 4007
           resources:
