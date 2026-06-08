@@ -1,0 +1,16 @@
+# NodePort = accessible from your browser / Postman
+# minikube ip → use that IP with port 30080
+# All other services are ClusterIP (default) — internal only
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: patient-management
+spec:
+  type: NodePort
+  selector:
+    app: api-gateway
+  ports:
+    - port: 4004
+      targetPort: 4004
+      nodePort: 30080

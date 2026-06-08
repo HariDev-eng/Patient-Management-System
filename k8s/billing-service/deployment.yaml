@@ -1,0 +1,35 @@
+# HOW WE READ THIS FROM YOUR CODE:
+# application.properties: server.port=4001   → HTTP port
+# application.properties: grpc.server.port=9001 → gRPC port
+# Dockerfile: EXPOSE 4001 AND EXPOSE 9001    → confirms both ports
+# billing-service is SPECIAL: it has 2 ports (HTTP + gRPC)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      containers:
+        - name: billing-service
+          image: your-dockerhub-username/billing-service:latest
+          ports:
+            - name: http
+              containerPort: 4001
+            - name: grpc
+              containerPort: 9001
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "400Mi"
+              cpu: "300m"

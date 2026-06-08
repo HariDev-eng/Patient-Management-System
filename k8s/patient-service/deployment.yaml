@@ -1,0 +1,58 @@
+# HOW WE READ THIS FROM YOUR CODE:
+# Dockerfile:              EXPOSE 4000          → containerPort: 4000
+# application.properties: server.port=4000      → confirms port
+# application.properties: spring.datasource.url → env SPRING_DATASOURCE_URL
+#                         localhost:5000 → postgres:5432 (Service DNS)
+# application.properties: spring.kafka.*        → env SPRING_KAFKA_*
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-service
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-service
+  template:
+    metadata:
+      labels:
+        app: patient-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "4000"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: patient-service
+          image: your-dockerhub-username/patient-service:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PATIENT_DB_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_PASSWORD
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: KAFKA_BOOTSTRAP_SERVERS
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "400Mi"
+              cpu: "400m"

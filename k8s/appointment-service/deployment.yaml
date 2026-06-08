@@ -1,0 +1,31 @@
+# HOW WE READ THIS FROM YOUR CODE:
+# application.properties: empty (no port set yet!)
+# pom.xml: Spring Boot 3.5.14 → defaults to 8080 if no port set
+# ACTION NEEDED: add server.port=4007 to appointment-service/src/main/resources/application.properties
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointment-service
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appointment-service
+  template:
+    metadata:
+      labels:
+        app: appointment-service
+    spec:
+      containers:
+        - name: appointment-service
+          image: your-dockerhub-username/appointment-service:latest
+          ports:
+            - containerPort: 4007
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "384Mi"
+              cpu: "300m"

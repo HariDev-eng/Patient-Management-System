@@ -1,0 +1,16 @@
+# configmap.yaml
+# WHY: Instead of hardcoding env vars in every deployment.yaml,
+#      we put shared config here and reference it from all pods.
+#      Change one value here = all pods pick it up on restart.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: patient-management
+data:
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  PATIENT_DB_URL: "jdbc:postgresql://postgres:5432/db"
+  DOCTOR_DB_URL:  "jdbc:postgresql://postgres-doctor:5432/doctor_db"
+  DB_USERNAME: "admin_user"
+  DB_PASSWORD: "password"

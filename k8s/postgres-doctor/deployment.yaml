@@ -1,0 +1,38 @@
+# HOW WE READ THIS:
+# doctor-svc application.properties:
+#   spring.datasource.url=jdbc:postgresql://localhost:5006/doctor_db → DB name: doctor_db
+# In K8s: localhost:5006 becomes postgres-doctor:5432
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-doctor
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-doctor
+  template:
+    metadata:
+      labels:
+        app: postgres-doctor
+    spec:
+      containers:
+        - name: postgres-doctor
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "doctor_db"
+            - name: POSTGRES_USER
+              value: "admin_user"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"

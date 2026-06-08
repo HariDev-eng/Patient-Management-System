@@ -1,0 +1,54 @@
+# HOW WE READ THIS FROM YOUR CODE:
+# application.properties: server.port=4006          → containerPort: 4006
+# Dockerfile: EXPOSE 4000  ← BUG (should be 4006)   → trust properties
+# application.properties: spring.datasource.url=jdbc:postgresql://localhost:5006/doctor_db
+#                          localhost:5006 → postgres-doctor:5432
+# application.properties: spring.kafka.bootstrap-servers=kafka:9092 → already correct!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctor-svc
+  namespace: patient-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctor-svc
+  template:
+    metadata:
+      labels:
+        app: doctor-svc
+    spec:
+      containers:
+        - name: doctor-svc
+          image: your-dockerhub-username/doctor-svc:latest
+          ports:
+            - containerPort: 4006
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DOCTOR_DB_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_PASSWORD
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: KAFKA_BOOTSTRAP_SERVERS
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "400Mi"
+              cpu: "400m"
