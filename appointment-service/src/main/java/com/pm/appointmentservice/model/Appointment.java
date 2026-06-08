@@ -3,6 +3,8 @@ package com.pm.appointmentservice.model;
 import com.pm.appointmentservice.enums.AppointmentStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,7 +35,10 @@ public class Appointment {
 
     private String notes;
 
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
