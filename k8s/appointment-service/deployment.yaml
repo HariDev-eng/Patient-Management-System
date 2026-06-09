@@ -1,7 +1,3 @@
-# HOW WE READ THIS FROM YOUR CODE:
-# application.properties: empty (no port set yet!)
-# pom.xml: Spring Boot 3.5.14 → defaults to 8080 if no port set
-# ACTION NEEDED: add server.port=4007 to appointment-service/src/main/resources/application.properties
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -1,8 +1,3 @@
-# HOW WE READ THIS FROM YOUR CODE:
-# Dockerfile: EXPOSE 4002                        → containerPort: 4002
-# application.properties: no server.port         → Dockerfile wins → 4002
-# application.properties: spring.kafka.bootstrap-servers=kafka:9092 → already correct!
-# analytics only CONSUMES from kafka, no DB needed
 apiVersion: apps/v1
 kind: Deployment
 metadata:
