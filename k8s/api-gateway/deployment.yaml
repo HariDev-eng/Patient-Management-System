@@ -1,7 +1,3 @@
-# HOW WE READ THIS FROM YOUR CODE:
-# Dockerfile: EXPOSE 4004  → containerPort: 4004
-# api-gateway is the ONLY service with NodePort (accessible from outside cluster)
-# All other services are ClusterIP (internal only)
 apiVersion: apps/v1
 kind: Deployment
 metadata:

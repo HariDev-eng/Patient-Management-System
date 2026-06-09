@@ -1,8 +1,3 @@
-# HOW WE READ THIS FROM YOUR CODE:
-# application.properties: server.port=4001   → HTTP port
-# application.properties: grpc.server.port=9001 → gRPC port
-# Dockerfile: EXPOSE 4001 AND EXPOSE 9001    → confirms both ports
-# billing-service is SPECIAL: it has 2 ports (HTTP + gRPC)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
