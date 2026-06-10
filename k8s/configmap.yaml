@@ -1,7 +1,6 @@
-# configmap.yaml
-# WHY: Instead of hardcoding env vars in every deployment.yaml,
-#      we put shared config here and reference it from all pods.
-#      Change one value here = all pods pick it up on restart.
+# configmap.yaml — shared non-sensitive config for all pods
+# WHY: one place to change URLs. All pods read from here.
+# NOTE: Passwords/secrets are in secret.yaml NOT here
 
 apiVersion: v1
 kind: ConfigMap
@@ -9,8 +8,20 @@ metadata:
   name: app-config
   namespace: patient-management
 data:
+  # Kafka — "kafka" = the Service name in kafka/service.yaml
   KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+
+  # Databases — "postgres" = Service name, 5432 = standard postgres port
+  # WHY not localhost? In K8s each pod is isolated. "postgres" is the DNS name.
   PATIENT_DB_URL: "jdbc:postgresql://postgres:5432/db"
-  DOCTOR_DB_URL:  "jdbc:postgresql://postgres-doctor:5432/doctor_db"
-  DB_USERNAME: "admin_user"
-  DB_PASSWORD: "password"
+  DOCTOR_DB_URL: "jdbc:postgresql://postgres-doctor:5432/doctor_db"
+  APPOINTMENT_DB_URL: "jdbc:postgresql://postgres:5432/db"
+  AUTH_DB_URL: "jdbc:postgresql://postgres:5432/db"
+
+  # Service URLs — used by api-gateway to route to each service
+  # "auth-service" = Service name in auth-service/service.yaml
+  AUTH_SERVICE_URL: "http://auth-service:4005"
+  PATIENT_SERVICE_URL: "http://patient-service:4000"
+  BILLING_SERVICE_URL: "http://billing-service:4001"
+  DOCTOR_SERVICE_URL: "http://doctor-svc:4006"
+  APPOINTMENT_SERVICE_URL: "http://appointment-service:4007"

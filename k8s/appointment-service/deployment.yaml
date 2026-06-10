@@ -1,3 +1,9 @@
+# appointment-service/deployment.yaml
+# FIXES APPLIED:
+#   1. Added SPRING_DATASOURCE_URL pointing to postgres:5432 (was localhost:5007)
+#   2. Added JPA dialect config
+#   3. Image tag :2 (rebuilt)
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,9 +21,37 @@ spec:
     spec:
       containers:
         - name: appointment-service
-          image: haripradap09/appointment-service:1
+          image: haripradap09/appointment-service:2   # ← your real username
           ports:
             - containerPort: 4007
+          env:
+            # This OVERRIDES application.properties at runtime
+            # Spring Boot env var SPRING_DATASOURCE_URL always wins over properties file
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: APPOINTMENT_DB_URL   # = jdbc:postgresql://postgres:5432/db
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: DB_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: DB_PASSWORD
+
+            # Without this, Hibernate can't figure out which SQL dialect to use
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+
+            - name: SPRING_JPA_DATABASE_PLATFORM
+              value: "org.hibernate.dialect.PostgreSQLDialect"
+
           resources:
             requests:
               memory: "256Mi"

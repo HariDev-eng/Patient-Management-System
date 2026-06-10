@@ -1,3 +1,10 @@
+# auth-service/deployment.yaml
+# FIXES APPLIED:
+#   1. Added JWT_SECRET from Secret (was missing → caused crash)
+#   2. Added SPRING_DATASOURCE_* so it uses postgres not H2
+#   3. Image tag updated to :2 (rebuilt with fixed Dockerfile)
+#   4. Added JPA config so Hibernate knows to use PostgreSQL dialect
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,9 +22,45 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: haripradap09/auth-service:1
+          image: haripradap09/auth-service:2    # ← your real Docker Hub username
           ports:
             - containerPort: 4005
+          env:
+            # JWT_SECRET — from Secret (sensitive!)
+            # Your JwtUtil class has @Value("${JWT_SECRET}") — this provides it
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: JWT_SECRET
+
+            # Database — overrides application.properties at runtime
+            # Spring Boot reads SPRING_DATASOURCE_URL env var automatically
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AUTH_DB_URL        # = jdbc:postgresql://postgres:5432/db
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: DB_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: DB_PASSWORD
+
+            # Tell Hibernate: use PostgreSQL, create tables if missing
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+
+            - name: SPRING_JPA_DATABASE_PLATFORM
+              value: "org.hibernate.dialect.PostgreSQLDialect"
+
           resources:
             requests:
               memory: "256Mi"

@@ -1,6 +1,9 @@
-# HOW WE READ THIS:
-# docker-compose.yaml → image: provectuslabs/kafka-ui:1
-# docker-compose.yaml → KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+# kafka-ui/deployment.yaml
+# FIX: ImagePullBackOff means K8s can't pull the image
+# The old pod (Running) used provectuslabs/kafka-ui:latest
+# The new pod is trying to pull a different/broken image tag
+# This uses the exact same image as docker-compose
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +21,8 @@ spec:
     spec:
       containers:
         - name: kafka-ui
-          image: provectuslabs/kafka-ui:1
+          image: provectuslabs/kafka-ui:latest
+          imagePullPolicy: IfNotPresent    # don't re-pull if already downloaded
           ports:
             - containerPort: 8080
           env:

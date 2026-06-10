@@ -18,6 +18,11 @@ spec:
           image: haripradap09/api-gateway:1
           ports:
             - containerPort: 4004
+
+          env:
+            - name: AUTH_SERVICE_URL
+              value: "http://auth-service:4005"
+
           resources:
             requests:
               memory: "256Mi"

@@ -5,6 +5,11 @@ spring:
   application:
     name: api-gateway
 
+services:
+  api-gateway:
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:4005
+
   cloud:
     gateway:
       routes:
