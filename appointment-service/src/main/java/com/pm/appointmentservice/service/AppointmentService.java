@@ -4,6 +4,7 @@ package com.pm.appointmentservice.service;
 import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.enums.AppointmentStatus;
+import com.pm.appointmentservice.grpc.PatientGrpcClient;
 import com.pm.appointmentservice.mapper.AppointmentMapper;
 import com.pm.appointmentservice.model.Appointment;
 import com.pm.appointmentservice.repository.AppointmentRepository;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
+    private final PatientGrpcClient patientGrpcClient;
 
     public AppointmentResponseDTO createAppointment(
             AppointmentRequestDTO dto) {
@@ -28,6 +30,10 @@ public class AppointmentService {
             throw new IllegalArgumentException(
                     "Appointment cannot be scheduled in the past");
         }
+        if (!patientGrpcClient.patientExists(dto.getPatientId())) {
+            throw new RuntimeException("Patient not found");
+        }
+
         Appointment appointment = AppointmentMapper.toEntity(dto);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
         Appointment saved = appointmentRepository.save(appointment);
