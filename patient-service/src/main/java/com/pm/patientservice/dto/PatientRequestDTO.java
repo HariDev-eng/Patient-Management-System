@@ -3,6 +3,7 @@ package com.pm.patientservice.dto;
 
 import com.pm.patientservice.enums.BloodGroup;
 import com.pm.patientservice.enums.Gender;
+import com.pm.patientservice.enums.PatientStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class PatientRequestDTO {
     private Gender gender;
 
     private String phone;
+
+    private PatientStatus status;
 
     @Email
     private String email;

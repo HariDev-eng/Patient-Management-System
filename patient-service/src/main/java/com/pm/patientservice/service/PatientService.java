@@ -89,6 +89,7 @@ public class PatientService {
         patient.setPhone(dto.getPhone());
         patient.setEmail(dto.getEmail());
         patient.setAddress(dto.getAddress());
+        patient.setStatus(dto.getStatus);
 
         patient.setBloodGroup(dto.getBloodGroup());
 

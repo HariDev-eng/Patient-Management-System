@@ -15,7 +15,9 @@ services:
       - internal
 
   appointment-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: appointment-service/Dockerfile
     image: appointment-service:latest
     container_name: appointment-service
 

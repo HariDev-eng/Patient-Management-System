@@ -1,5 +1,6 @@
 package com.pm.billingservice.service;
 
+import appointment.events.AppointmentCreatedEvent;
 import com.pm.billingservice.dto.BillingRequestDTO;
 import com.pm.billingservice.dto.BillingResponseDTO;
 import com.pm.billingservice.enums.PaymentStatus;
@@ -102,5 +103,24 @@ public class BillingService {
                                                 + billId));
 
         billingRepository.delete(bill);
+    }
+
+    public void createBillingFromAppointment(
+            AppointmentCreatedEvent event) {
+
+        Bill billing = new Bill();
+
+        billing.setPatientId(
+                UUID.fromString(event.getPatientId()));
+
+        billing.setAppointmentId(
+                UUID.fromString(event.getAppointmentId()));
+
+        billing.setAmount(1000.0);
+
+        billing.setPaymentStatus(
+                PaymentStatus.PENDING);
+
+        billingRepository.save(billing);
     }
 }

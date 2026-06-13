@@ -13,19 +13,23 @@ services:
       - internal
 
   patient-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: patient-service/Dockerfile
     container_name: patient-service
     depends_on:
       - db
     ports:
       - "4000:4000"
       - "9001:9001"
+    volumes:
+      - patient_db_data:/var/lib/postgresql/data
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db
       SPRING_DATASOURCE_USERNAME: admin_user
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SQL_INIT_MODE: never
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
@@ -37,3 +41,5 @@ services:
 networks:
   internal:
     external: true
+volumes:
+  patient_db_data:

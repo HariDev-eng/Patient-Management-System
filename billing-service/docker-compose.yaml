@@ -14,19 +14,26 @@ services:
       - internal
 
   billing-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: billing-service/Dockerfile
+
     container_name: billing-service
+
     depends_on:
       - billing-db
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://billing-db:5432/billing_db
       SPRING_DATASOURCE_USERNAME: admin_user
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: create
       SPRING_SQL_INIT_MODE: never
+
     ports:
       - "4001:4001"
-      - "9001:9001"
+      - "9003:9003"
+
     networks:
       - internal
 

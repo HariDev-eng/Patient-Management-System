@@ -1,12 +1,11 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
-WORKDIR /app
+WORKDIR /app/appointment-service
 
-COPY pom.xml .
+COPY appointment-service/pom.xml .
+COPY appointment-service/src ./src
 
-RUN mvn dependency:go-offline -B
-
-COPY src ./src
+COPY proto ../proto
 
 RUN mvn clean package -DskipTests
 
@@ -14,7 +13,7 @@ FROM eclipse-temurin:21-jdk AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app/target/appointment-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/appointment-service/target/appointment-service-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 4007
 
