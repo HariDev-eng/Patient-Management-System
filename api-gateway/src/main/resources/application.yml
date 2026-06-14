@@ -5,14 +5,17 @@ spring:
   application:
     name: api-gateway
 
-services:
-  api-gateway:
-    environment:
-      AUTH_SERVICE_URL: http://auth-service:4005
-
   cloud:
     gateway:
       routes:
+
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+
         - id: patient-service-route
           uri: http://patient-service:4000
           predicates:
@@ -21,13 +24,41 @@ services:
             - StripPrefix=1
             - JwtValidation
 
-        - id: auth-service-route
-          uri: http://auth-service:4005
+        - id: doctor-service-route
+          uri: http://doctor-service:4006
           predicates:
-            - Path=/auth/**
+            - Path=/api/doctors/**
           filters:
             - StripPrefix=1
+            - JwtValidation
 
+        - id: appointment-service-route
+          uri: http://appointment-service:4007
+          predicates:
+            - Path=/api/appointments/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
+        - id: billing-service-route
+          uri: http://billing-service:4001
+          predicates:
+            - Path=/api/bills/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
+        - id: analytics-service-route
+          uri: http://analytics-service:4002
+          predicates:
+            - Path=/api/analytics/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
+auth:
+  service:
+    url: http://auth-service:4005
 
 management:
   endpoints:
