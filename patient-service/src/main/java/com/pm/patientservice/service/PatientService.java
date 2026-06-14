@@ -5,8 +5,6 @@ import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.enums.PatientStatus;
 import com.pm.patientservice.exception.EmailAlreadyExistsException;
 import com.pm.patientservice.exception.PatientNotFoundException;
-import com.pm.patientservice.grpc.BillingServiceGrpcClient;
-import com.pm.patientservice.kafka.KafkaProducer;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
@@ -20,17 +18,11 @@ import java.util.UUID;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-    private final BillingServiceGrpcClient billingServiceGrpcClient;
-    private final KafkaProducer kafkaProducer;
 
     public PatientService(
-            PatientRepository patientRepository,
-            BillingServiceGrpcClient billingServiceGrpcClient,
-            KafkaProducer kafkaProducer) {
+            PatientRepository patientRepository){
 
         this.patientRepository = patientRepository;
-        this.billingServiceGrpcClient = billingServiceGrpcClient;
-        this.kafkaProducer = kafkaProducer;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -67,14 +59,6 @@ public class PatientService {
         Patient savedPatient =
                 patientRepository.save(patient);
 
-        billingServiceGrpcClient.createBillingAccount(
-                savedPatient.getPatientId().toString(),
-                savedPatient.getFirstName() + " "
-                        + savedPatient.getLastName(),
-                savedPatient.getEmail()
-        );
-
-        kafkaProducer.sendPatientCreatedEvent(savedPatient);
 
         return PatientMapper.toDTO(savedPatient);
     }
@@ -105,6 +89,7 @@ public class PatientService {
         patient.setPhone(dto.getPhone());
         patient.setEmail(dto.getEmail());
         patient.setAddress(dto.getAddress());
+        patient.setStatus(dto.getStatus);
 
         patient.setBloodGroup(dto.getBloodGroup());
 
@@ -132,9 +117,6 @@ public class PatientService {
         Patient updatedPatient =
                 patientRepository.save(patient);
 
-        kafkaProducer.sendPatientUpdatedEvent(
-                updatedPatient);
-
         return PatientMapper.toDTO(updatedPatient);
     }
 
@@ -151,8 +133,6 @@ public class PatientService {
 
         patientRepository.save(patient);
 
-        kafkaProducer.sendPatientDeactivatedEvent(
-                patient);
     }
 
     public void deletePatient(UUID id){

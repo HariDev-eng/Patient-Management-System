@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class Appointment {
 
     private UUID doctorId;
 
-    private LocalDateTime appointmentDateTime;
+    private LocalDate appointmentDateTime;
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
