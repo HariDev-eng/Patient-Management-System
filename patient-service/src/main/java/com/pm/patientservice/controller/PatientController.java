@@ -22,6 +22,22 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    @GetMapping("/test")
+    public String test(
+            @RequestHeader("X-User-Id")
+            String userId,
+
+            @RequestHeader("X-Role")
+            String role,
+
+            @RequestHeader("X-Email")
+            String email) {
+
+        return userId + " "
+                + role + " "
+                + email;
+    }
+
     @GetMapping
     public ResponseEntity<List<PatientResponseDTO>>
     getPatients() {

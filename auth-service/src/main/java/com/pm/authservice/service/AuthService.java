@@ -41,8 +41,10 @@ public class AuthService {
 
                     String token =
                             jwtUtil.generateToken(
+                                    user.getId().toString(),
                                     user.getEmail(),
-                                    user.getRole().name());
+                                    user.getRole().name()
+                            );
 
                     return new LoginResponseDTO(
                             token,
@@ -73,8 +75,10 @@ public class AuthService {
 
         String token =
                 jwtUtil.generateToken(
+                        savedUser.getId().toString(),
                         savedUser.getEmail(),
-                        savedUser.getRole().name());
+                        savedUser.getRole().name()
+                );
 
         return Optional.of(
                 new LoginResponseDTO(

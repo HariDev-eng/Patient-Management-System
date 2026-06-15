@@ -60,6 +60,9 @@ auth:
   service:
     url: http://auth-service:4005
 
+jwt:
+  secret: 8f4c1e4b7d0f6a8b2c5d9e1f4a7b8c0d1234567890abcdef
+
 management:
   endpoints:
     web:
