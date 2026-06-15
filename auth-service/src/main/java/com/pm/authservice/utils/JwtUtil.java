@@ -41,13 +41,22 @@ public class JwtUtil {
                 .get("role", String.class);
     }
 
-    public String generateToken(String email, String role) {
+    public String generateToken(
+            String userId,
+            String email,
+            String role) {
 
         return Jwts.builder()
                 .subject(email)
+                .claim("userId", userId)
                 .claim("role", role)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  //10 hours
+                .expiration(
+                        new Date(
+                                System.currentTimeMillis()
+                                        + 1000 * 60 * 60 * 10
+                        )
+                )
                 .signWith(secretKey)
                 .compact();
     }
