@@ -1,0 +1,50 @@
+services:
+
+  diagnosis-db:
+    image: postgres:17
+    container_name: diagnosis-service-db
+
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: diagnosis_db
+
+    ports:
+      - "5009:5432"
+
+    volumes:
+      - diagnosis_db_data:/var/lib/postgresql/data
+
+    networks:
+      - internal
+
+  diagnosis-service:
+    build: .
+
+    image: diagnosis-service:latest
+
+    container_name: diagnosis-service
+
+    depends_on:
+      - diagnosis-db
+
+    ports:
+      - "4009:4009"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://diagnosis-db:5432/diagnosis_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: never
+
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
+
+volumes:
+  diagnosis_db_data:
