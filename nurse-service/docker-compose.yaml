@@ -1,0 +1,50 @@
+services:
+
+  nurse-db:
+    image: postgres:17
+    container_name: nurse-service-db
+
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: nurse_db
+
+    ports:
+      - "5008:5432"
+
+    volumes:
+      - nurse_db_data:/var/lib/postgresql/data
+
+    networks:
+      - internal
+
+  nurse-service:
+    build: .
+
+    image: nurse-service:latest
+
+    container_name: nurse-service
+
+    depends_on:
+      - nurse-db
+
+    ports:
+      - "4008:4008"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://nurse-db:5432/nurse_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: never
+
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
+
+volumes:
+  nurse_db_data:
