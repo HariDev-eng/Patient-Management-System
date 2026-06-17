@@ -11,9 +11,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY --from=builder \
-    /app/target/nurse-svc-0.0.1-SNAPSHOT.jar \
-    app.jar
+COPY --from=builder /app/target/nurse-service-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 4008
 

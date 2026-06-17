@@ -39,6 +39,10 @@ public class Diagnosis {
     @Column(length = 3000)
     private String notes;
 
+    private Boolean followUpRequired;
+
+    private Integer followUpDays;
+
     private LocalDate followUpDate;
 
     @CreationTimestamp
