@@ -23,26 +23,6 @@
         </processorPath>
         <module name="doctor-svc" />
       </profile>
-      <profile name="Annotation profile for nurse-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="nurse-service" />
-      </profile>
-      <profile name="Annotation profile for inventory-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="appointment-service" />
-        <module name="inventory-service" />
-      </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
@@ -51,9 +31,32 @@
         <module name="diagnosis-svc.main" />
         <module name="diagnosis-svc.test" />
       </profile>
+      <profile name="Annotation profile for nurse-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="appointment-service" />
+        <module name="nurse-service" />
+        <module name="inventory-service" />
+      </profile>
+      <profile name="Annotation profile for prescriptio-svc" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="prescriptio-svc" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="diagnosis-svc" target="21" />
       <module name="nurse-svc" target="21" />
+      <module name="prescription-svc" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -71,6 +74,8 @@
       <module name="nurse-service" options="-parameters" />
       <module name="nurse-svc" options="-parameters" />
       <module name="patient-service" options="-parameters" />
+      <module name="prescriptio-svc" options="-parameters" />
+      <module name="prescription-svc" options="-parameters" />
     </option>
   </component>
 </project>
