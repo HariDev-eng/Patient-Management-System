@@ -16,12 +16,15 @@
         <option value="$PROJECT_DIR$/nurse-svc/pom.xml" />
         <option value="$PROJECT_DIR$/nurse-service/pom.xml" />
         <option value="$PROJECT_DIR$/diagnosis-svc/pom.xml" />
+        <option value="$PROJECT_DIR$/prescription-svc/pom.xml" />
+        <option value="$PROJECT_DIR$/prescriptio-svc/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/diagnosis-svc/pom.xml" />
         <option value="$PROJECT_DIR$/nurse-svc/pom.xml" />
+        <option value="$PROJECT_DIR$/prescription-svc/pom.xml" />
       </set>
     </option>
   </component>
