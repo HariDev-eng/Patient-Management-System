@@ -50,13 +50,12 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="prescriptio-svc" />
+        <module name="prescription-svc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="diagnosis-svc" target="21" />
       <module name="nurse-svc" target="21" />
-      <module name="prescription-svc" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -74,7 +73,6 @@
       <module name="nurse-service" options="-parameters" />
       <module name="nurse-svc" options="-parameters" />
       <module name="patient-service" options="-parameters" />
-      <module name="prescriptio-svc" options="-parameters" />
       <module name="prescription-svc" options="-parameters" />
     </option>
   </component>
