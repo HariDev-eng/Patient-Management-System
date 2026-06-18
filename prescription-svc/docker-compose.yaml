@@ -1,0 +1,43 @@
+services:
+
+  prescription-db:
+    image: postgres:17
+    container_name: prescription-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: prescription_db
+    ports:
+      - "5010:5432"
+    volumes:
+      - prescription_db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  prescription-service:
+    build: .
+    image: prescription-service:latest
+    container_name: prescription-service
+    depends_on:
+      - prescription-db
+    ports:
+      - "4010:4010"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://prescription-db:5432/prescription_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: never
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
+
+volumes:
+  prescription_db_data:

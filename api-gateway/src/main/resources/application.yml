@@ -72,6 +72,14 @@ spring:
             - StripPrefix=1
             - JwtValidation
 
+        - id: prescription-service-route
+          uri: http://prescription-service:4010
+          predicates:
+            - Path=/api/prescriptions/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
 auth:
   service:
     url: http://auth-service:4005
