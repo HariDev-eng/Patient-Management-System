@@ -14,7 +14,9 @@ services:
       - internal
 
   analytics-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: analytics-service/Dockerfile
     image: analytics-service:latest
     container_name: analytics-service
     depends_on:

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: doctor-svc
-          image: haripradap09/doctor-svc:1
+          image: haripradap09/doctor-svc:a2e2f1a
           ports:
             - containerPort: 4006
           env:

@@ -64,6 +64,14 @@ spring:
             - StripPrefix=1
             - JwtValidation
 
+        - id: vital-service-route
+          uri: http://nurse-service:4008
+          predicates:
+            - Path=/api/vitals/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
         - id: diagnosis-service-route
           uri: http://diagnosis-service:4009
           predicates:
@@ -71,6 +79,7 @@ spring:
           filters:
             - StripPrefix=1
             - JwtValidation
+
 
         - id: prescription-service-route
           uri: http://prescription-service:4010
