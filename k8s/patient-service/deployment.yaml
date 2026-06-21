@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: patient-service
-          image: haripradap09/patient-service:1
+          image: haripradap09/patient-service:a2e2f1a
           ports:
             - containerPort: 4000
           env:

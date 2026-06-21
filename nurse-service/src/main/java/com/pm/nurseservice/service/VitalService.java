@@ -1,7 +1,9 @@
 package com.pm.nurseservice.service;
 
+import com.pm.events.VitalsRecordedEvent;
 import com.pm.nurseservice.dto.VitalRequestDTO;
 import com.pm.nurseservice.dto.VitalResponseDTO;
+import com.pm.nurseservice.kafka.VitalRecordProducer;
 import com.pm.nurseservice.mapper.VitalMapper;
 import com.pm.nurseservice.model.VitalRecord;
 import com.pm.nurseservice.repository.VitalRepository;
@@ -16,6 +18,7 @@ import java.util.UUID;
 public class VitalService {
 
     private final VitalRepository vitalRepository;
+    private final VitalRecordProducer producer;
 
     public VitalResponseDTO createVital(
             VitalRequestDTO dto) {
@@ -24,6 +27,17 @@ public class VitalService {
                 vitalRepository.save(
                         VitalMapper.toEntity(dto)
                 );
+
+        VitalsRecordedEvent event =
+                VitalsRecordedEvent.builder()
+                        .vitalId(saved.getVitalId())
+                        .patientId(saved.getPatientId())
+                        .nurseId(saved.getNurseId())
+                        .temperature(saved.getTemperature())
+                        .heartRate(saved.getHeartRate())
+                        .build();
+
+        producer.publishVitalRecord(event);
 
         return VitalMapper.toDTO(saved);
     }
