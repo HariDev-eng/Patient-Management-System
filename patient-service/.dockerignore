@@ -1,0 +1,13 @@
+target/
+.git/
+*.iml
+.idea/
+.mvn/
+*.log
+.env
+Dockerfile
+.dockerignore
+README.md
+*.md/
+HELP.md
+EOF

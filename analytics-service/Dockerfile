@@ -1,22 +1,33 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
-WORKDIR /app
+WORKDIR /workspace
 
-COPY pom.xml .
+# Copy shared library
+COPY kafka-events ./kafka-events
+
+# Install kafka-events into container's local Maven repo
+RUN cd kafka-events && mvn clean install -DskipTests
+
+# Build analytics-service
+WORKDIR /workspace/analytics-service
+
+COPY analytics-service/pom.xml .
 
 RUN mvn dependency:go-offline -B
 
-COPY src ./src
+COPY analytics-service/src ./src
 
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jdk AS runner
+# Runtime image
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY --from=builder ./app/target/analytics-service-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=builder \
+    /workspace/analytics-service/target/analytics-service-0.0.1-SNAPSHOT.jar \
+    app.jar
 
 EXPOSE 4002
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java","-jar","app.jar"]
