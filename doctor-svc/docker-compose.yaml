@@ -15,7 +15,10 @@ services:
       - internal
 
   doctor-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: doctor-svc/Dockerfile
+
     image: doctor-service:latest
     container_name: doctor-service
     depends_on:

@@ -1,6 +1,8 @@
 services:
   api-gateway:
-    build: .
+    build:
+      context: ..
+      dockerfile: api-gateway/Dockerfile
     image: api-gateway:latest
     container_name: api-gateway
     ports:

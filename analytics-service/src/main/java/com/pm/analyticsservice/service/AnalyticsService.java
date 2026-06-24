@@ -4,6 +4,8 @@ import com.pm.analyticsservice.Repository.AnalyticsVitalRepository;
 import com.pm.analyticsservice.dto.AnalyticsSummaryDTO;
 import com.pm.analyticsservice.dto.AnalyticsVitalDTO;
 import com.pm.analyticsservice.mapper.AnalyticsVitalMapper;
+import com.pm.analyticsservice.model.AnalyticsVital;
+import com.pm.events.VitalsRecordedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -71,5 +73,26 @@ public class AnalyticsService {
 
     public Long getLowOxygenCount() {
         return repository.countByOxygenSaturationLessThan(95);
+    }
+
+    public void saveVital(
+            VitalsRecordedEvent event) {
+
+        AnalyticsVital vital =
+                AnalyticsVital.builder()
+                        .vitalId(event.getVitalId())
+                        .patientId(event.getPatientId())
+                        .nurseId(event.getNurseId())
+                        .temperature(event.getTemperature())
+                        .heartRate(event.getHeartRate())
+                        .systolicBP(event.getSystolicBP())
+                        .diastolicBP(event.getDiastolicBP())
+                        .weight(event.getWeight())
+                        .height(event.getHeight())
+                        .oxygenSaturation(event.getOxygenSaturation())
+                        .recordedAt(event.getRecordedAt())
+                        .build();
+
+        repository.save(vital);
     }
 }

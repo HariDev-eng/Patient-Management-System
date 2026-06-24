@@ -19,7 +19,9 @@ services:
       - internal
 
   diagnosis-service:
-    build: .
+    build:
+      context: ..
+      dockerfile: diagnosis-svc/Dockerfile
 
     image: diagnosis-service:latest
 
