@@ -1,31 +1,38 @@
 services:
-
-  prescription-db:
+  inventory-db:
     image: postgres:17
-    container_name: prescription-service-db
+    container_name: inventory-service-db
+
     environment:
       POSTGRES_USER: admin_user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: prescription_db
+      POSTGRES_DB: inventory_db
+
     ports:
-      - "5010:5432"
+      - "5011:5432"
+
     volumes:
-      - prescription_db_data:/var/lib/postgresql/data
+      - inventory_db_data:/var/lib/postgresql/data
+
     networks:
       - internal
 
-  prescription-service:
+  inventory-service:
     build:
-        context: ..
-        dockerfile: prescription-svc/Dockerfile
-    image: prescription-service:latest
-    container_name: prescription-service
+      context: ..
+      dockerfile: inventory-service/Dockerfile
+
+    image: inventory-service:latest
+    container_name: inventory-service
+
     depends_on:
-      - prescription-db
+      - inventory-db
+
     ports:
-      - "4010:4010"
+      - "4011:4011"
+
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://prescription-db:5432/prescription_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://inventory-db:5432/inventory_db
       SPRING_DATASOURCE_USERNAME: admin_user
       SPRING_DATASOURCE_PASSWORD: password
 
@@ -42,4 +49,4 @@ networks:
     external: true
 
 volumes:
-  prescription_db_data:
+  inventory_db_data:

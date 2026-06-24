@@ -89,6 +89,14 @@ spring:
             - StripPrefix=1
             - JwtValidation
 
+        - id: inventory-service-route
+          uri: http://inventory-service:4011
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
 auth:
   service:
     url: http://auth-service:4005

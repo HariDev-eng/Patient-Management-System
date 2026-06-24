@@ -19,7 +19,9 @@ services:
       - internal
 
   nurse-service:
-    build: .
+    build:
+        context: ..
+        dockerfile: nurse-service/Dockerfile
 
     image: nurse-service:latest
 

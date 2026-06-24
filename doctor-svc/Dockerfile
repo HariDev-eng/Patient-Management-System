@@ -1,12 +1,21 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
-WORKDIR /app
+WORKDIR /build
 
-COPY pom.xml .
+# Install shared library first
+COPY kafka-events ./kafka-events
 
-RUN mvn dependency:go-offline -B
+WORKDIR /build/kafka-events
 
-COPY src ./src
+RUN mvn clean install -DskipTests
+
+WORKDIR /build
+COPY proto ./proto
+
+WORKDIR /build/doctor-svc
+
+COPY doctor-svc/pom.xml .
+COPY doctor-svc/src ./src
 
 RUN mvn clean package -DskipTests
 
@@ -14,7 +23,7 @@ FROM eclipse-temurin:21-jdk AS runner
 
 WORKDIR /app
 
-COPY --from=builder ./app/target/doctor-svc-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=builder ./build/doctor-svc/target//doctor-svc-0.0.1-SNAPSHOT.jar ./app.jar
 
 EXPOSE 4006
 

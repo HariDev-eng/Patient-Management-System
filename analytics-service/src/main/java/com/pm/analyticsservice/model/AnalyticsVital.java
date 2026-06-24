@@ -33,6 +33,10 @@ public class AnalyticsVital {
 
     private Integer oxygenSaturation;
 
+    private Integer systolicBP;
+
+    private Integer diastolicBP;
+
     private Double weight;
 
     private Double height;

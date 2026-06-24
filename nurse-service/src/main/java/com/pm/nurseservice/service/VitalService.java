@@ -35,6 +35,12 @@ public class VitalService {
                         .nurseId(saved.getNurseId())
                         .temperature(saved.getTemperature())
                         .heartRate(saved.getHeartRate())
+                        .systolicBP(saved.getSystolicBP())
+                        .diastolicBP(saved.getDiastolicBP())
+                        .weight(saved.getWeight())
+                        .height(saved.getHeight())
+                        .oxygenSaturation(saved.getOxygenSaturation())
+                        .recordedAt(saved.getRecordedAt())
                         .build();
 
         producer.publishVitalRecord(event);
