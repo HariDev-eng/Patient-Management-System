@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: haripradap09/api-gateway:1
+          image: haripradap09/api-gateway:a2e2f1a
           ports:
             - containerPort: 4004
 

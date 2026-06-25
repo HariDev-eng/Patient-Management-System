@@ -1,9 +1,6 @@
 package com.pm.events;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,5 +17,11 @@ public class PrescriptionCreatedEvent {
 
     private UUID doctorId;
 
-    private LocalDateTime prescribedAt;
+    private UUID diagnosisId;
+
+    private Integer medicinesCount;
+
+    private String eventType;
+
+    private LocalDateTime occurredAt;
 }

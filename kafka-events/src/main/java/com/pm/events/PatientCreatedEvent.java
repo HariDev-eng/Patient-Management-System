@@ -9,17 +9,12 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiagnosisCreatedEvent {
-
-    private UUID diagnosisId;
+public class PatientCreatedEvent {
 
     private UUID patientId;
-
-    private UUID doctorId;
-
-    private String diagnosis;
+    private String gender;
+    private String bloodGroup;
 
     private String eventType;
-
     private LocalDateTime occurredAt;
 }

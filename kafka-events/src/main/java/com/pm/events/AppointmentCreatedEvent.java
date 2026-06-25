@@ -1,10 +1,8 @@
 package com.pm.events;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +18,11 @@ public class AppointmentCreatedEvent {
 
     private UUID doctorId;
 
-    private LocalDateTime appointmentTime;
-
     private String status;
+
+    private LocalDate appointmentDate;
+
+    private String eventType;
+
+    private LocalDateTime occurredAt;
 }

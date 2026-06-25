@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: haripradap09/auth-service:2    # ← your real Docker Hub username
+          image: haripradap09/auth-service:a2e2f1a
           ports:
             - containerPort: 4005
           env:

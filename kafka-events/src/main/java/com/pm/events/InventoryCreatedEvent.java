@@ -9,15 +9,15 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiagnosisCreatedEvent {
+public class InventoryCreatedEvent {
 
-    private UUID diagnosisId;
+    private UUID inventoryId;
 
-    private UUID patientId;
+    private String itemName;
 
-    private UUID doctorId;
+    private Integer quantity;
 
-    private String diagnosis;
+    private Integer minimumStock;
 
     private String eventType;
 
