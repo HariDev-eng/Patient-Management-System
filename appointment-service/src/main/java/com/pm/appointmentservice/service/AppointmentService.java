@@ -7,6 +7,7 @@ import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.enums.AppointmentStatus;
 import com.pm.appointmentservice.grpc.PatientGrpcClient;
 import com.pm.appointmentservice.kafka.AppointmentEventProducer;
+import com.pm.appointmentservice.kafka.AppointmentProducer;
 import com.pm.appointmentservice.mapper.AppointmentMapper;
 import com.pm.appointmentservice.model.Appointment;
 import com.pm.appointmentservice.repository.AppointmentRepository;
@@ -25,6 +26,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final PatientGrpcClient patientGrpcClient;
     private final AppointmentEventProducer producer;
+    private final AppointmentProducer appointmentProducer;
 
     public AppointmentResponseDTO createAppointment(
             AppointmentRequestDTO dto) {
@@ -57,6 +59,20 @@ public class AppointmentService {
                         .build();
 
         producer.publishAppointmentCreated(event);
+
+        AppointmentCreatedEvent KafkaEvents =
+                AppointmentCreatedEvent.builder()
+                        .appointmentId(saved.getAppointmentId())
+                        .patientId(saved.getPatientId())
+                        .doctorId(saved.getDoctorId())
+                        .status(saved.getStatus().name())
+                        .appointmentDate(saved.getAppointmentDateTime())
+                        .eventType("APPOINTMENT_CREATED")
+                        .occurredAt(LocalDateTime.now())
+                        .build();
+
+        appointmentProducer.publishAppointmentCreated(event);
+
         return AppointmentMapper.toDTO(saved);
     }
 

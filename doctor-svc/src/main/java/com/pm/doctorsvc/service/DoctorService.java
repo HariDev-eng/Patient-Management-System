@@ -6,6 +6,7 @@ import com.pm.doctorsvc.enums.Specialization;
 import com.pm.doctorsvc.exception.DoctorNotFoundException;
 import com.pm.doctorsvc.exception.EmailAlreadyExistsException;
 import com.pm.doctorsvc.exception.LicenseAlreadyExistsException;
+import com.pm.doctorsvc.kafka.AnalyticsDoctorProducer;
 import com.pm.doctorsvc.kafka.KafkaProducer;
 import com.pm.doctorsvc.mapper.DoctorMapper;
 import com.pm.doctorsvc.model.Doctor;
@@ -23,6 +24,7 @@ public class DoctorService {
 
     private final KafkaProducer kafkaProducer;
     private final DoctorRepository doctorRepository;
+    private final AnalyticsDoctorProducer analyticsDoctorProducer;
 
     public List<DoctorResponseDTO> getDoctors() {
         return doctorRepository.findAll()
@@ -62,6 +64,7 @@ public class DoctorService {
                 doctorRepository.save(doctor);
 
         kafkaProducer.publishDoctorCreated(savedDoctor);
+        analyticsDoctorProducer.publishDoctorCreated(doctor);
 
         return DoctorMapper.toDTO(savedDoctor);
     }
