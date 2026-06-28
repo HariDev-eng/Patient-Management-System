@@ -1,10 +1,14 @@
 package com.pm.analyticsservice.service;
 
+import com.pm.analyticsservice.Repository.AnalyticsPatientRepository;
 import com.pm.analyticsservice.Repository.AnalyticsVitalRepository;
 import com.pm.analyticsservice.dto.AnalyticsSummaryDTO;
 import com.pm.analyticsservice.dto.AnalyticsVitalDTO;
 import com.pm.analyticsservice.mapper.AnalyticsVitalMapper;
+import com.pm.analyticsservice.model.AnalyticPatient;
 import com.pm.analyticsservice.model.AnalyticsVital;
+import com.pm.events.DoctorCreatedEvent;
+import com.pm.events.PatientCreatedEvent;
 import com.pm.events.VitalsRecordedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import java.util.UUID;
 public class AnalyticsService {
 
     private final AnalyticsVitalRepository repository;
+    private final AnalyticsPatientRepository patientRepository;
     private final AnalyticsVitalMapper mapper;
 
     public List<AnalyticsVitalDTO> getAllVitals() {
@@ -94,5 +99,21 @@ public class AnalyticsService {
                         .build();
 
         repository.save(vital);
+    }
+
+    public void savePatient(PatientCreatedEvent event){
+        AnalyticPatient patient = AnalyticPatient.builder()
+                .patientId(event.getPatientId())
+                .gender(event.getGender())
+                .bloodGroup(event.getBloodGroup())
+                .eventType(event.getEventType())
+                .occurredAt(event.getOccurredAt())
+                .build();
+
+        patientRepository.save(patient);
+    }
+
+    public void saveDoctor(DoctorCreatedEvent doctor){
+        Analytic
     }
 }
