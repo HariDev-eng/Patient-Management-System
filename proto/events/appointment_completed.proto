@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package events;
+
+option java_multiple_files = true;
+
+message AppointmentCompletedEvent {
+
+  string appointmentId = 1;
+
+  string patientId = 2;
+
+  string doctorId = 3;
+
+  string completedAt = 4;
+}

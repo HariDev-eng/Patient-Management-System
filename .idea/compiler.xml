@@ -50,11 +50,11 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="kafka-events" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="diagnosis-svc" target="21" />
+      <module name="kafka-events" target="21" />
       <module name="nurse-svc" target="21" />
       <module name="prescription-svc" target="21" />
     </bytecodeTargetLevel>
