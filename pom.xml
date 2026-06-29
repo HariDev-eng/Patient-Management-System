@@ -12,7 +12,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>kafka-events</module>
 
         <module>patient-service</module>
         <module>doctor-svc</module>

@@ -24,6 +24,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/diagnosis-svc/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-events/pom.xml" />
         <option value="$PROJECT_DIR$/nurse-svc/pom.xml" />
         <option value="$PROJECT_DIR$/prescription-svc/pom.xml" />
       </set>
