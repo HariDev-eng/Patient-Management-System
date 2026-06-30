@@ -26,30 +26,25 @@ public class KafkaProducer {
         publish(doctor, "DOCTOR_AVAILABILITY_CHANGED");
     }
 
-    private void publish(
-            Doctor doctor,
-            String eventType) {
+    private static final String TOPIC = "doctor-events";
 
-        DoctorEvent event =
-                DoctorEvent.newBuilder()
-                        .setDoctorId(
-                                doctor.getDoctorId().toString())
-                        .setFirstName(
-                                doctor.getFirstName())
-                        .setLastName(
-                                doctor.getLastName())
-                        .setEmail(
-                                doctor.getEmail())
-                        .setSpecialization(
-                                doctor.getSpecialization().name())
-                        .setAvailabilityStatus(
-                                doctor.getAvailabilityStatus().name())
-                        .setEventType(
-                                eventType)
-                        .build();
+    private void publish(Doctor doctor, String eventType) {
+
+        DoctorEvent event = DoctorEvent.newBuilder()
+                .setDoctorId(doctor.getDoctorId().toString())
+                .setFirstName(doctor.getFirstName())
+                .setLastName(doctor.getLastName())
+                .setEmail(doctor.getEmail())
+                .setSpecialization(doctor.getSpecialization().name())
+                .setAvailabilityStatus(doctor.getAvailabilityStatus().name())
+                .setEventType(eventType)
+                .setOccurredAt(Instant.now().toString())
+                .build();
 
         kafkaTemplate.send(
-                "doctor-events",
-                event.toByteArray());
+                TOPIC,
+                doctor.getDoctorId().toString(),
+                event.toByteArray()
+        );
     }
 }

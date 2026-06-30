@@ -12,7 +12,7 @@ public class VitalRecordProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public void publishVitalRecord(
-            VitalsRecordedEvent event) {
+            Vital event) {
 
         kafkaTemplate.send(
                 "vital-records",
