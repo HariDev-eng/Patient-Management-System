@@ -9,7 +9,7 @@ import events.PatientCreatedEvent;
 @RequiredArgsConstructor
 public class PatientProducer {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void publishPatientCreated(
             PatientCreatedEvent event) {
@@ -17,7 +17,7 @@ public class PatientProducer {
         kafkaTemplate.send(
                 "patient-events",
                 event.getPatientId().toString(),
-                event
+                event.toByteArray()
         );
     }
 }

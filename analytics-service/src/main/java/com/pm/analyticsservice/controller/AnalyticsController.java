@@ -1,5 +1,6 @@
 package com.pm.analyticsservice.controller;
 
+import com.pm.analyticsservice.dto.AnalyticsPatientDTO;
 import com.pm.analyticsservice.dto.AnalyticsSummaryDTO;
 import com.pm.analyticsservice.dto.AnalyticsVitalDTO;
 import com.pm.analyticsservice.service.AnalyticsService;
@@ -63,5 +64,11 @@ public class AnalyticsController {
     public Long lowOxygenPatients() {
 
         return analyticsService.getLowOxygenCount();
+    }
+
+    @GetMapping("/patients")
+    public List<AnalyticsPatientDTO> getAllPatients(){
+
+        return analyticsService.getAllPatients();
     }
 }

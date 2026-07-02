@@ -2,11 +2,15 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /workspace
 
-# Copy shared library
-COPY kafka-events ./kafka-events
+COPY proto ./proto
 
-# Install kafka-events into container's local Maven repo
-RUN cd kafka-events && mvn clean install -DskipTests
+WORKDIR /workspace/proto
+RUN mvn clean install -DskipTests
+
+WORKDIR /workspace
+
+COPY analytics-service ./analytics-service
+
 
 # Build analytics-service
 WORKDIR /workspace/analytics-service

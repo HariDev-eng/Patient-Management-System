@@ -5,6 +5,7 @@ import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.enums.PatientStatus;
 import com.pm.patientservice.exception.EmailAlreadyExistsException;
 import com.pm.patientservice.exception.PatientNotFoundException;
+import com.pm.patientservice.kafka.PatientProducer;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
@@ -18,13 +19,13 @@ import java.util.UUID;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-//    private final PatientProducer patientProducer;
+    private final PatientProducer patientProducer;
 
     public PatientService(
-            PatientRepository patientRepository){
+            PatientRepository patientRepository, PatientProducer patientProducer){
 
         this.patientRepository = patientRepository;
-//        this.patientProducer = patientProducer;
+        this.patientProducer = patientProducer;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -61,16 +62,16 @@ public class PatientService {
         Patient savedPatient =
                 patientRepository.save(patient);
 
-//        events.PatientCreatedEvent event =
-//                events.PatientCreatedEvent.newBuilder()
-//                        .setPatientId(savedPatient.getPatientId().toString())
-//                        .setGender(savedPatient.getGender().name())
-//                        .setBloodGroup(savedPatient.getBloodGroup().name())
-//                        .setEventType("PATIENT_CREATED")
-//                        .setOccurredAt(LocalDateTime.now().toString())
-//                        .build();
-//
-//        patientProducer.publishPatientCreated(event);
+        events.PatientCreatedEvent event =
+                events.PatientCreatedEvent.newBuilder()
+                        .setPatientId(savedPatient.getPatientId().toString())
+                        .setGender(savedPatient.getGender().name())
+                        .setBloodGroup(savedPatient.getBloodGroup().name())
+                        .setEventType("PATIENT_CREATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        patientProducer.publishPatientCreated(event);
 
         return PatientMapper.toDTO(savedPatient);
     }
