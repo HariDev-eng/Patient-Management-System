@@ -1,6 +1,5 @@
 package com.pm.patientservice.service;
 
-import com.pm.events.PatientCreatedEvent;
 import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.enums.PatientStatus;
@@ -63,13 +62,13 @@ public class PatientService {
         Patient savedPatient =
                 patientRepository.save(patient);
 
-        PatientCreatedEvent event =
-                PatientCreatedEvent.builder()
-                        .patientId(savedPatient.getPatientId())
-                        .gender(savedPatient.getGender().name())
-                        .bloodGroup(savedPatient.getBloodGroup().name())
-                        .eventType("PATIENT_CREATED")
-                        .occurredAt(LocalDateTime.now())
+        events.PatientCreatedEvent event =
+                events.PatientCreatedEvent.newBuilder()
+                        .setPatientId(savedPatient.getPatientId().toString())
+                        .setGender(savedPatient.getGender().name())
+                        .setBloodGroup(savedPatient.getBloodGroup().name())
+                        .setEventType("PATIENT_CREATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
                         .build();
 
         patientProducer.publishPatientCreated(event);

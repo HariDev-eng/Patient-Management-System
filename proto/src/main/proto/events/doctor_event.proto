@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package events;
+
+option java_multiple_files = true;
+
+message DoctorEvent {
+
+  string doctorId = 1;
+
+  string firstName = 2;
+
+  string lastName = 3;
+
+  string email = 4;
+
+  string specialization = 5;
+
+  string availabilityStatus = 6;
+
+  string eventType = 7;
+
+  string occurredAt = 8;
+}
