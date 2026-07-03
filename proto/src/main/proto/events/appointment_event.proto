@@ -4,7 +4,7 @@ package events;
 
 option java_multiple_files = true;
 
-message AppointmentCreatedEvent {
+message AppointmentEvent {
 
   string appointmentId = 1;
 
@@ -12,11 +12,13 @@ message AppointmentCreatedEvent {
 
   string doctorId = 3;
 
-  string status = 4;
+  string appointmentDateTime = 4;
 
-  string appointmentDate = 5;
+  string reason = 5;
 
-  string eventType = 6;
+  string status = 6;
 
-  string occurredAt = 7;
+  string eventType = 7;
+
+  string occurredAt = 8;
 }

@@ -1,16 +1,15 @@
 package com.pm.appointmentservice.service;
 
 
-import appointment.events.AppointmentCreatedEvent;
 import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.enums.AppointmentStatus;
 import com.pm.appointmentservice.grpc.PatientGrpcClient;
-import com.pm.appointmentservice.kafka.AppointmentEventProducer;
 import com.pm.appointmentservice.kafka.AppointmentProducer;
 import com.pm.appointmentservice.mapper.AppointmentMapper;
 import com.pm.appointmentservice.model.Appointment;
 import com.pm.appointmentservice.repository.AppointmentRepository;
+import events.AppointmentEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final PatientGrpcClient patientGrpcClient;
-    private final AppointmentEventProducer producer;
     private final AppointmentProducer appointmentProducer;
 
     public AppointmentResponseDTO createAppointment(
@@ -44,34 +42,20 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.SCHEDULED);
         Appointment saved = appointmentRepository.save(appointment);
 
-        AppointmentCreatedEvent event =
-                AppointmentCreatedEvent.newBuilder()
-                        .setAppointmentId(
-                                saved.getAppointmentId().toString())
-                        .setPatientId(
-                                saved.getPatientId().toString())
-                        .setDoctorId(
-                                saved.getDoctorId().toString())
-                        .setAppointmentDateTime(
-                                saved.getAppointmentDateTime().toString())
-                        .setReason(
-                                saved.getReason())
-                        .build();
-
-        producer.publishAppointmentCreated(event);
-
-        AppointmentCreatedEvent KafkaEvents =
-                AppointmentCreatedEvent.builder()
-                        .appointmentId(saved.getAppointmentId())
-                        .patientId(saved.getPatientId())
-                        .doctorId(saved.getDoctorId())
-                        .status(saved.getStatus().name())
-                        .appointmentDate(saved.getAppointmentDateTime())
-                        .eventType("APPOINTMENT_CREATED")
-                        .occurredAt(LocalDateTime.now())
+        AppointmentEvent event =
+                AppointmentEvent.newBuilder()
+                        .setAppointmentId(saved.getAppointmentId().toString())
+                        .setPatientId(saved.getPatientId().toString())
+                        .setDoctorId(saved.getDoctorId().toString())
+                        .setAppointmentDateTime(saved.getAppointmentDateTime().toString())
+                        .setReason(saved.getReason())
+                        .setStatus(saved.getStatus().name())
+                        .setEventType("APPOINTMENT_CREATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
                         .build();
 
         appointmentProducer.publishAppointmentCreated(event);
+
 
         return AppointmentMapper.toDTO(saved);
     }
@@ -93,16 +77,40 @@ public class AppointmentService {
         appointment.setUpdatedAt(LocalDateTime.now());
         appointment.setReason(requestDTO.getReason());
         appointment.setNotes(requestDTO.getNotes());
-        appointmentRepository.save(appointment);
-        return AppointmentMapper.toDTO(appointment);
+        Appointment updated = appointmentRepository.save(appointment);
+
+        AppointmentEvent event =
+                AppointmentEvent.newBuilder()
+                        .setAppointmentId(updated.getAppointmentId().toString())
+                        .setPatientId(updated.getPatientId().toString())
+                        .setDoctorId(updated.getDoctorId().toString())
+                        .setAppointmentDateTime(updated.getAppointmentDateTime().toString())
+                        .setReason(updated.getReason())
+                        .setStatus(updated.getStatus().name())
+                        .setEventType("APPOINTMENT_UPDATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        appointmentProducer.publishAppointmentUpdated(event);
+
+        return AppointmentMapper.toDTO(updated);
     }
 
     public void deleteAppointment(UUID appointmentId) {
-        if (!appointmentRepository.existsById(appointmentId)) {
-            throw new RuntimeException(
-                    "Appointment not found with id: " + appointmentId);
-        }
-        appointmentRepository.deleteById(appointmentId);
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Appointment not found with id: " + appointmentId));
+
+        AppointmentEvent event =
+                AppointmentEvent.newBuilder()
+                        .setAppointmentId(appointment.getAppointmentId().toString())
+                        .setEventType("APPOINTMENT_DELETED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        appointmentProducer.publishAppointmentDeleted(event);
+
+        appointmentRepository.delete(appointment);
     }
 
     public List<AppointmentResponseDTO> getAppointmentsByPatientId(

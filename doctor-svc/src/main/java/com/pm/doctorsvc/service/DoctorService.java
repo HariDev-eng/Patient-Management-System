@@ -2,12 +2,12 @@ package com.pm.doctorsvc.service;
 
 import com.pm.doctorsvc.dto.DoctorRequestDTO;
 import com.pm.doctorsvc.dto.DoctorResponseDTO;
+import com.pm.doctorsvc.enums.AvailabilityStatus;
 import com.pm.doctorsvc.enums.Specialization;
 import com.pm.doctorsvc.exception.DoctorNotFoundException;
 import com.pm.doctorsvc.exception.EmailAlreadyExistsException;
 import com.pm.doctorsvc.exception.LicenseAlreadyExistsException;
 import com.pm.doctorsvc.kafka.AnalyticsDoctorProducer;
-import com.pm.doctorsvc.kafka.KafkaProducer;
 import com.pm.doctorsvc.mapper.DoctorMapper;
 import com.pm.doctorsvc.model.Doctor;
 import com.pm.doctorsvc.repository.DoctorRepository;
@@ -22,7 +22,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DoctorService {
 
-    private final KafkaProducer kafkaProducer;
     private final DoctorRepository doctorRepository;
     private final AnalyticsDoctorProducer analyticsDoctorProducer;
 
@@ -63,7 +62,6 @@ public class DoctorService {
         Doctor savedDoctor =
                 doctorRepository.save(doctor);
 
-        kafkaProducer.publishDoctorCreated(savedDoctor);
         analyticsDoctorProducer.publishDoctorCreated(doctor);
 
         return DoctorMapper.toDTO(savedDoctor);
@@ -124,8 +122,7 @@ public class DoctorService {
         Doctor updatedDoctor =
                 doctorRepository.save(existingDoctor);
 
-        kafkaProducer.publishDoctorUpdated(updatedDoctor);
-
+        analyticsDoctorProducer.publishDoctorUpdated(updatedDoctor);
         return DoctorMapper.toDTO(updatedDoctor);
     }
 
@@ -133,8 +130,10 @@ public class DoctorService {
 
         Doctor doctor =
                 getDoctorEntity(doctorId);
-
         doctorRepository.delete(doctor);
+
+        analyticsDoctorProducer.publishDoctorDeleted(
+                doctor.getDoctorId().toString());
     }
 
     public List<DoctorResponseDTO> searchBySpecialization(
@@ -154,5 +153,22 @@ public class DoctorService {
                         new DoctorNotFoundException(
                                 "Doctor not found with id: "
                                         + doctorId));
+    }
+
+    public DoctorResponseDTO updateAvailability(
+            UUID doctorId,
+            AvailabilityStatus availabilityStatus) {
+
+        Doctor doctor = getDoctorEntity(doctorId);
+
+        doctor.setAvailabilityStatus(availabilityStatus);
+        doctor.setUpdatedAt(LocalDateTime.now());
+
+        Doctor updatedDoctor =
+                doctorRepository.save(doctor);
+
+        analyticsDoctorProducer.publishAvailabilityChanged(updatedDoctor);
+
+        return DoctorMapper.toDTO(updatedDoctor);
     }
 }

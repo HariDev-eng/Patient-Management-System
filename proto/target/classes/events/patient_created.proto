@@ -4,7 +4,7 @@ package events;
 
 option java_multiple_files = true;
 
-message PatientCreatedEvent {
+message PatientEvent {
 
   string patientId = 1;
 

@@ -9,6 +9,7 @@ import com.pm.patientservice.kafka.PatientProducer;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
+import events.PatientEvent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -62,8 +63,8 @@ public class PatientService {
         Patient savedPatient =
                 patientRepository.save(patient);
 
-        events.PatientCreatedEvent event =
-                events.PatientCreatedEvent.newBuilder()
+        PatientEvent event =
+                PatientEvent.newBuilder()
                         .setPatientId(savedPatient.getPatientId().toString())
                         .setGender(savedPatient.getGender().name())
                         .setBloodGroup(savedPatient.getBloodGroup().name())
@@ -129,6 +130,16 @@ public class PatientService {
 
         Patient updatedPatient =
                 patientRepository.save(patient);
+        PatientEvent event =
+                PatientEvent.newBuilder()
+                        .setPatientId(updatedPatient.getPatientId().toString())
+                        .setGender(updatedPatient.getGender().name())
+                        .setBloodGroup(updatedPatient.getBloodGroup().name())
+                        .setEventType("PATIENT_UPDATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        patientProducer.publishPatientUpdated(event);
 
         return PatientMapper.toDTO(updatedPatient);
     }
@@ -149,6 +160,14 @@ public class PatientService {
     }
 
     public void deletePatient(UUID id){
+        PatientEvent event =
+                PatientEvent.newBuilder()
+                        .setPatientId(id.toString())
+                        .setEventType("PATIENT_DELETED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        patientProducer.publishPatientDeleted(event);
         patientRepository.deleteById(id);
     }
 
