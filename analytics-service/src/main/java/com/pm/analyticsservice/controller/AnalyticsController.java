@@ -1,8 +1,6 @@
 package com.pm.analyticsservice.controller;
 
-import com.pm.analyticsservice.dto.AnalyticsPatientDTO;
-import com.pm.analyticsservice.dto.AnalyticsSummaryDTO;
-import com.pm.analyticsservice.dto.AnalyticsVitalDTO;
+import com.pm.analyticsservice.dto.*;
 import com.pm.analyticsservice.service.AnalyticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -70,5 +68,44 @@ public class AnalyticsController {
     public List<AnalyticsPatientDTO> getAllPatients(){
 
         return analyticsService.getAllPatients();
+    }
+
+    @GetMapping("/doctors")
+    public List<AnalyticsDoctorDTO> getAllDoctors(){
+
+        return analyticsService.getAllDoctors();
+    }
+
+    @GetMapping("/appointments")
+    public List<AnalyticsAppointmentDTO> getAppointments() {
+
+        return analyticsService.getAllAppointments();
+    }
+
+    @GetMapping("/appointments/patient/{patientId}")
+    public List<AnalyticsAppointmentDTO> getAppointmentsByPatient(
+            @PathVariable UUID patientId) {
+
+        return analyticsService.getAppointmentsByPatient(patientId);
+    }
+
+    @GetMapping("/appointments/doctor/{doctorId}")
+    public List<AnalyticsAppointmentDTO> getAppointmentsByDoctor(
+            @PathVariable UUID doctorId) {
+
+        return analyticsService.getAppointmentsByDoctor(doctorId);
+    }
+
+    @GetMapping("/appointments/status/{status}")
+    public List<AnalyticsAppointmentDTO> getAppointmentsByStatus(
+            @PathVariable String status) {
+
+        return analyticsService.getAppointmentsByStatus(status);
+    }
+
+    @GetMapping("/appointments/count")
+    public Long totalAppointments() {
+
+        return analyticsService.getAppointmentCount();
     }
 }

@@ -6,12 +6,12 @@
 package events;
 
 /**
- * Protobuf type {@code events.PatientCreatedEvent}
+ * Protobuf type {@code events.PatientEvent}
  */
-public final class PatientCreatedEvent extends
+public final class PatientEvent extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:events.PatientCreatedEvent)
-    PatientCreatedEventOrBuilder {
+    // @@protoc_insertion_point(message_implements:events.PatientEvent)
+    PatientEventOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -20,13 +20,13 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 29,
       /* patch= */ 1,
       /* suffix= */ "",
-      PatientCreatedEvent.class.getName());
+      PatientEvent.class.getName());
   }
-  // Use PatientCreatedEvent.newBuilder() to construct.
-  private PatientCreatedEvent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use PatientEvent.newBuilder() to construct.
+  private PatientEvent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private PatientCreatedEvent() {
+  private PatientEvent() {
     patientId_ = "";
     gender_ = "";
     bloodGroup_ = "";
@@ -36,15 +36,15 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return events.PatientCreated.internal_static_events_PatientCreatedEvent_descriptor;
+    return events.PatientCreated.internal_static_events_PatientEvent_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return events.PatientCreated.internal_static_events_PatientCreatedEvent_fieldAccessorTable
+    return events.PatientCreated.internal_static_events_PatientEvent_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            events.PatientCreatedEvent.class, events.PatientCreatedEvent.Builder.class);
+            events.PatientEvent.class, events.PatientEvent.Builder.class);
   }
 
   public static final int PATIENTID_FIELD_NUMBER = 1;
@@ -305,10 +305,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof events.PatientCreatedEvent)) {
+    if (!(obj instanceof events.PatientEvent)) {
       return super.equals(obj);
     }
-    events.PatientCreatedEvent other = (events.PatientCreatedEvent) obj;
+    events.PatientEvent other = (events.PatientEvent) obj;
 
     if (!getPatientId()
         .equals(other.getPatientId())) return false;
@@ -346,44 +346,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static events.PatientCreatedEvent parseFrom(byte[] data)
+  public static events.PatientEvent parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static events.PatientCreatedEvent parseFrom(java.io.InputStream input)
+  public static events.PatientEvent parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -391,26 +391,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static events.PatientCreatedEvent parseDelimitedFrom(java.io.InputStream input)
+  public static events.PatientEvent parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static events.PatientCreatedEvent parseDelimitedFrom(
+  public static events.PatientEvent parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static events.PatientCreatedEvent parseFrom(
+  public static events.PatientEvent parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -423,7 +423,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(events.PatientCreatedEvent prototype) {
+  public static Builder newBuilder(events.PatientEvent prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -439,26 +439,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code events.PatientCreatedEvent}
+   * Protobuf type {@code events.PatientEvent}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:events.PatientCreatedEvent)
-      events.PatientCreatedEventOrBuilder {
+      // @@protoc_insertion_point(builder_implements:events.PatientEvent)
+      events.PatientEventOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return events.PatientCreated.internal_static_events_PatientCreatedEvent_descriptor;
+      return events.PatientCreated.internal_static_events_PatientEvent_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return events.PatientCreated.internal_static_events_PatientCreatedEvent_fieldAccessorTable
+      return events.PatientCreated.internal_static_events_PatientEvent_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              events.PatientCreatedEvent.class, events.PatientCreatedEvent.Builder.class);
+              events.PatientEvent.class, events.PatientEvent.Builder.class);
     }
 
-    // Construct using events.PatientCreatedEvent.newBuilder()
+    // Construct using events.PatientEvent.newBuilder()
     private Builder() {
 
     }
@@ -483,17 +483,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return events.PatientCreated.internal_static_events_PatientCreatedEvent_descriptor;
+      return events.PatientCreated.internal_static_events_PatientEvent_descriptor;
     }
 
     @java.lang.Override
-    public events.PatientCreatedEvent getDefaultInstanceForType() {
-      return events.PatientCreatedEvent.getDefaultInstance();
+    public events.PatientEvent getDefaultInstanceForType() {
+      return events.PatientEvent.getDefaultInstance();
     }
 
     @java.lang.Override
-    public events.PatientCreatedEvent build() {
-      events.PatientCreatedEvent result = buildPartial();
+    public events.PatientEvent build() {
+      events.PatientEvent result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -501,14 +501,14 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public events.PatientCreatedEvent buildPartial() {
-      events.PatientCreatedEvent result = new events.PatientCreatedEvent(this);
+    public events.PatientEvent buildPartial() {
+      events.PatientEvent result = new events.PatientEvent(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(events.PatientCreatedEvent result) {
+    private void buildPartial0(events.PatientEvent result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.patientId_ = patientId_;
@@ -529,16 +529,16 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof events.PatientCreatedEvent) {
-        return mergeFrom((events.PatientCreatedEvent)other);
+      if (other instanceof events.PatientEvent) {
+        return mergeFrom((events.PatientEvent)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(events.PatientCreatedEvent other) {
-      if (other == events.PatientCreatedEvent.getDefaultInstance()) return this;
+    public Builder mergeFrom(events.PatientEvent other) {
+      if (other == events.PatientEvent.getDefaultInstance()) return this;
       if (!other.getPatientId().isEmpty()) {
         patientId_ = other.patientId_;
         bitField0_ |= 0x00000001;
@@ -992,23 +992,23 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    // @@protoc_insertion_point(builder_scope:events.PatientCreatedEvent)
+    // @@protoc_insertion_point(builder_scope:events.PatientEvent)
   }
 
-  // @@protoc_insertion_point(class_scope:events.PatientCreatedEvent)
-  private static final events.PatientCreatedEvent DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:events.PatientEvent)
+  private static final events.PatientEvent DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new events.PatientCreatedEvent();
+    DEFAULT_INSTANCE = new events.PatientEvent();
   }
 
-  public static events.PatientCreatedEvent getDefaultInstance() {
+  public static events.PatientEvent getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<PatientCreatedEvent>
-      PARSER = new com.google.protobuf.AbstractParser<PatientCreatedEvent>() {
+  private static final com.google.protobuf.Parser<PatientEvent>
+      PARSER = new com.google.protobuf.AbstractParser<PatientEvent>() {
     @java.lang.Override
-    public PatientCreatedEvent parsePartialFrom(
+    public PatientEvent parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1027,17 +1027,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<PatientCreatedEvent> parser() {
+  public static com.google.protobuf.Parser<PatientEvent> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<PatientCreatedEvent> getParserForType() {
+  public com.google.protobuf.Parser<PatientEvent> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public events.PatientCreatedEvent getDefaultInstanceForType() {
+  public events.PatientEvent getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

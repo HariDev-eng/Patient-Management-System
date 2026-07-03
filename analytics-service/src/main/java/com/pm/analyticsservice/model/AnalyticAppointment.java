@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnalyticsAppointment {
+public class AnalyticAppointment {
 
     @Id
     private UUID appointmentId;
@@ -23,5 +23,11 @@ public class AnalyticsAppointment {
 
     private String status;
 
-    private LocalDate appointmentDate;
+    private String reason;
+
+    private LocalDateTime appointmentDateTime;
+
+    private String eventType;
+
+    private LocalDateTime occurredAt;
 }

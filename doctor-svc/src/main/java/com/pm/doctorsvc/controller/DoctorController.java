@@ -3,6 +3,7 @@ package com.pm.doctorsvc.controller;
 
 import com.pm.doctorsvc.dto.DoctorRequestDTO;
 import com.pm.doctorsvc.dto.DoctorResponseDTO;
+import com.pm.doctorsvc.enums.AvailabilityStatus;
 import com.pm.doctorsvc.enums.Specialization;
 import com.pm.doctorsvc.service.DoctorService;
 import jakarta.validation.Valid;
@@ -44,6 +45,17 @@ public class DoctorController {
     public ResponseEntity<Void> deleteDoctor(@PathVariable UUID id) {
         doctorService.deleteDoctor(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/availability")
+    public ResponseEntity<DoctorResponseDTO> updateAvailabilityStatus(
+            @PathVariable UUID id,
+            @RequestParam AvailabilityStatus status) {
+
+        DoctorResponseDTO doctor =
+                doctorService.updateAvailability(id, status);
+
+        return ResponseEntity.ok(doctor);
     }
 
     @GetMapping("/search")

@@ -26,10 +26,10 @@ public final class PatientCreated {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_events_PatientCreatedEvent_descriptor;
+    internal_static_events_PatientEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_events_PatientCreatedEvent_fieldAccessorTable;
+      internal_static_events_PatientEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -39,21 +39,20 @@ public final class PatientCreated {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\034events/patient_created.proto\022\006events\"s" +
-      "\n\023PatientCreatedEvent\022\021\n\tpatientId\030\001 \001(\t" +
-      "\022\016\n\006gender\030\002 \001(\t\022\022\n\nbloodGroup\030\003 \001(\t\022\021\n\t" +
-      "eventType\030\004 \001(\t\022\022\n\noccurredAt\030\005 \001(\tB\002P\001b" +
-      "\006proto3"
+      "\n\034events/patient_created.proto\022\006events\"l" +
+      "\n\014PatientEvent\022\021\n\tpatientId\030\001 \001(\t\022\016\n\006gen" +
+      "der\030\002 \001(\t\022\022\n\nbloodGroup\030\003 \001(\t\022\021\n\teventTy" +
+      "pe\030\004 \001(\t\022\022\n\noccurredAt\030\005 \001(\tB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_events_PatientCreatedEvent_descriptor =
+    internal_static_events_PatientEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_events_PatientCreatedEvent_fieldAccessorTable = new
+    internal_static_events_PatientEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_events_PatientCreatedEvent_descriptor,
+        internal_static_events_PatientEvent_descriptor,
         new java.lang.String[] { "PatientId", "Gender", "BloodGroup", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }

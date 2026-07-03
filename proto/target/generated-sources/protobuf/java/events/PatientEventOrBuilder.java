@@ -5,8 +5,8 @@
 
 package events;
 
-public interface PatientCreatedEventOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:events.PatientCreatedEvent)
+public interface PatientEventOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:events.PatientEvent)
     com.google.protobuf.MessageOrBuilder {
 
   /**

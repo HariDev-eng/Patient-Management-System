@@ -1,20 +1,21 @@
 package com.pm.analyticsservice.Repository;
 
-import com.pm.analyticsservice.model.AnalyticsAppointment;
+import com.pm.analyticsservice.model.AnalyticAppointment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface AnalyticsAppointmentRepository
-        extends JpaRepository<AnalyticsAppointment, UUID> {
+        extends JpaRepository<AnalyticAppointment, UUID> {
 
-    List<AnalyticsAppointment> findByDoctorId(UUID doctorId);
+    List<AnalyticAppointment> findByPatientId(UUID patientId);
 
-    List<AnalyticsAppointment> findByPatientId(UUID patientId);
+    List<AnalyticAppointment> findByDoctorId(UUID doctorId);
 
-    List<AnalyticsAppointment> findByStatus(String status);
+    List<AnalyticAppointment> findByStatus(String status);
 
-    List<AnalyticsAppointment> findByAppointmentDate(LocalDate appointmentDate);
+    Long countByStatus(String status);
 }

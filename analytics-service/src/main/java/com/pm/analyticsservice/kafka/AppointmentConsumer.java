@@ -2,40 +2,40 @@ package com.pm.analyticsservice.kafka;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.pm.analyticsservice.service.AnalyticsService;
-import events.PatientEvent;
+import events.AppointmentEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PatientConsumer {
+public class AppointmentConsumer {
 
     private final AnalyticsService analyticsService;
 
     @KafkaListener(
-            topics = "patient-events",
+            topics = "appointment-events",
             groupId = "analytics-service"
     )
     public void consume(byte[] payload)
             throws InvalidProtocolBufferException {
 
-        PatientEvent event = PatientEvent.parseFrom(payload);
+        AppointmentEvent event = AppointmentEvent.parseFrom(payload);
 
         switch (event.getEventType()) {
 
-            case "PATIENT_CREATED" ->
-                    analyticsService.savePatient(event);
+            case "APPOINTMENT_CREATED" ->
+                    analyticsService.saveAppointment(event);
 
-            case "PATIENT_UPDATED" ->
-                    analyticsService.updatePatient(event);
+            case "APPOINTMENT_UPDATED" ->
+                    analyticsService.updateAppointment(event);
 
-            case "PATIENT_DELETED" ->
-                    analyticsService.deletePatient(event);
+            case "APPOINTMENT_DELETED" ->
+                    analyticsService.deleteAppointment(event);
 
             default ->
                     throw new IllegalArgumentException(
-                            "Unknown event type: " + event.getEventType());
+                            "Unknown event: " + event.getEventType());
         }
     }
 }

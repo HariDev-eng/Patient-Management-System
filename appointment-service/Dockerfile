@@ -2,21 +2,16 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /build
 
-# Install shared library first
-COPY kafka-events ./kafka-events
-
-WORKDIR /build/kafka-events
-RUN mvn clean install -DskipTests
-
-# Shared proto files
-WORKDIR /build
 COPY proto ./proto
 
-# Build appointment service
-WORKDIR /build/appointment-service
+WORKDIR /build/proto
+RUN mvn clean install -DskipTests
 
-COPY appointment-service/pom.xml .
-COPY appointment-service/src ./src
+WORKDIR /build
+
+COPY appointment-service ./appointment-service
+
+WORKDIR /build/appointment-service
 
 RUN mvn clean package -DskipTests
 
