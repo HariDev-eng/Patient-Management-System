@@ -1,12 +1,12 @@
 package com.pm.nurseservice.service;
 
-import com.pm.events.VitalsRecordedEvent;
 import com.pm.nurseservice.dto.VitalRequestDTO;
 import com.pm.nurseservice.dto.VitalResponseDTO;
-import com.pm.nurseservice.kafka.VitalRecordProducer;
+import com.pm.nurseservice.kafka.VitalsProducer;
 import com.pm.nurseservice.mapper.VitalMapper;
 import com.pm.nurseservice.model.VitalRecord;
 import com.pm.nurseservice.repository.VitalRepository;
+import events.VitalsRecordedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class VitalService {
 
     private final VitalRepository vitalRepository;
-    private final VitalRecordProducer producer;
+    private final VitalsProducer vitalsProducer;
 
     public VitalResponseDTO createVital(
             VitalRequestDTO dto) {
@@ -29,21 +29,21 @@ public class VitalService {
                 );
 
         VitalsRecordedEvent event =
-                VitalsRecordedEvent.builder()
-                        .vitalId(saved.getVitalId())
-                        .patientId(saved.getPatientId())
-                        .nurseId(saved.getNurseId())
-                        .temperature(saved.getTemperature())
-                        .heartRate(saved.getHeartRate())
-                        .systolicBP(saved.getSystolicBP())
-                        .diastolicBP(saved.getDiastolicBP())
-                        .weight(saved.getWeight())
-                        .height(saved.getHeight())
-                        .oxygenSaturation(saved.getOxygenSaturation())
-                        .recordedAt(saved.getRecordedAt())
+                VitalsRecordedEvent.newBuilder()
+                        .setVitalId(saved.getVitalId().toString())
+                        .setPatientId(saved.getPatientId().toString())
+                        .setNurseId(saved.getNurseId().toString())
+                        .setTemperature(saved.getTemperature())
+                        .setHeartRate(saved.getHeartRate())
+                        .setSystolicBP(saved.getSystolicBP())
+                        .setDiastolicBP(saved.getDiastolicBP())
+                        .setWeight(saved.getWeight())
+                        .setHeight(saved.getHeight())
+                        .setOxygenSaturation(saved.getOxygenSaturation())
+                        .setRecordedAt(saved.getRecordedAt().toString())
                         .build();
 
-        producer.publishVitalRecord(event);
+        vitalsProducer.publishVitalsRecorded(event);
 
         return VitalMapper.toDTO(saved);
     }

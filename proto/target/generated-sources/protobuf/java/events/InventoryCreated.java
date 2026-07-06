@@ -26,10 +26,10 @@ public final class InventoryCreated {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_events_InventoryCreatedEvent_descriptor;
+    internal_static_events_InventoryEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_events_InventoryCreatedEvent_fieldAccessorTable;
+      internal_static_events_InventoryEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -40,21 +40,23 @@ public final class InventoryCreated {
   static {
     java.lang.String[] descriptorData = {
       "\n\036events/inventory_created.proto\022\006events" +
-      "\"\215\001\n\025InventoryCreatedEvent\022\023\n\013inventoryI" +
-      "d\030\001 \001(\t\022\020\n\010itemName\030\002 \001(\t\022\020\n\010quantity\030\003 " +
-      "\001(\005\022\024\n\014minimumStock\030\004 \001(\005\022\021\n\teventType\030\005" +
-      " \001(\t\022\022\n\noccurredAt\030\006 \001(\tB\002P\001b\006proto3"
+      "\"\273\001\n\016InventoryEvent\022\023\n\013inventoryId\030\001 \001(\t" +
+      "\022\020\n\010itemName\030\002 \001(\t\022\020\n\010itemCode\030\003 \001(\t\022\020\n\010" +
+      "quantity\030\004 \001(\005\022\024\n\014minimumStock\030\005 \001(\005\022\021\n\t" +
+      "unitPrice\030\006 \001(\001\022\016\n\006status\030\007 \001(\t\022\021\n\tevent" +
+      "Type\030\010 \001(\t\022\022\n\noccurredAt\030\t \001(\tB\002P\001b\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_events_InventoryCreatedEvent_descriptor =
+    internal_static_events_InventoryEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_events_InventoryCreatedEvent_fieldAccessorTable = new
+    internal_static_events_InventoryEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_events_InventoryCreatedEvent_descriptor,
-        new java.lang.String[] { "InventoryId", "ItemName", "Quantity", "MinimumStock", "EventType", "OccurredAt", });
+        internal_static_events_InventoryEvent_descriptor,
+        new java.lang.String[] { "InventoryId", "ItemName", "ItemCode", "Quantity", "MinimumStock", "UnitPrice", "Status", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

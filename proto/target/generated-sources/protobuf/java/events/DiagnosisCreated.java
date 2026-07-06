@@ -26,10 +26,10 @@ public final class DiagnosisCreated {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_events_DiagnosisCreatedEvent_descriptor;
+    internal_static_events_DiagnosisEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_events_DiagnosisCreatedEvent_fieldAccessorTable;
+      internal_static_events_DiagnosisEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -40,21 +40,23 @@ public final class DiagnosisCreated {
   static {
     java.lang.String[] descriptorData = {
       "\n\036events/diagnosis_created.proto\022\006events" +
-      "\"\213\001\n\025DiagnosisCreatedEvent\022\023\n\013diagnosisI" +
-      "d\030\001 \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010doctorId\030\003" +
-      " \001(\t\022\021\n\tdiagnosis\030\004 \001(\t\022\021\n\teventType\030\005 \001" +
-      "(\t\022\022\n\noccurredAt\030\006 \001(\tB\002P\001b\006proto3"
+      "\"\341\001\n\016DiagnosisEvent\022\023\n\013diagnosisId\030\001 \001(\t" +
+      "\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010doctorId\030\003 \001(\t\022\025\n" +
+      "\rappointmentId\030\004 \001(\t\022\021\n\tdiagnosis\030\005 \001(\t\022" +
+      "\030\n\020followUpRequired\030\006 \001(\010\022\024\n\014followUpDay" +
+      "s\030\007 \001(\005\022\024\n\014followUpDate\030\010 \001(\t\022\021\n\teventTy" +
+      "pe\030\t \001(\t\022\022\n\noccurredAt\030\n \001(\tB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_events_DiagnosisCreatedEvent_descriptor =
+    internal_static_events_DiagnosisEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_events_DiagnosisCreatedEvent_fieldAccessorTable = new
+    internal_static_events_DiagnosisEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_events_DiagnosisCreatedEvent_descriptor,
-        new java.lang.String[] { "DiagnosisId", "PatientId", "DoctorId", "Diagnosis", "EventType", "OccurredAt", });
+        internal_static_events_DiagnosisEvent_descriptor,
+        new java.lang.String[] { "DiagnosisId", "PatientId", "DoctorId", "AppointmentId", "Diagnosis", "FollowUpRequired", "FollowUpDays", "FollowUpDate", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

@@ -1,7 +1,8 @@
-package com.pm.prescriptiosvc.model;
+package src.main.java.com.pm.prescriptiosvc.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 

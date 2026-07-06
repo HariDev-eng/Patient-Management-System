@@ -1,15 +1,17 @@
 package com.pm.billingservice.service;
 
-import appointment.events.AppointmentCreatedEvent;
 import com.pm.billingservice.dto.BillingRequestDTO;
 import com.pm.billingservice.dto.BillingResponseDTO;
 import com.pm.billingservice.enums.PaymentStatus;
+import com.pm.billingservice.kafka.BillingProducer;
 import com.pm.billingservice.mapper.BillingMapper;
 import com.pm.billingservice.model.Bill;
 import com.pm.billingservice.repository.BillingRepository;
+import events.BillingEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class BillingService {
 
     private final BillingRepository billingRepository;
+    private final BillingProducer billingProducer;
 
     public BillingResponseDTO createBill(
             BillingRequestDTO dto) {
@@ -30,6 +33,20 @@ public class BillingService {
 
         Bill saved =
                 billingRepository.save(bill);
+
+        BillingEvent event =
+                BillingEvent.newBuilder()
+                        .setBillId(saved.getBillId().toString())
+                        .setAppointmentId(saved.getAppointmentId().toString())
+                        .setPatientId(saved.getPatientId().toString())
+                        .setAmount(saved.getAmount().doubleValue())
+                        .setPaymentStatus(saved.getPaymentStatus().name())
+                        .setPaymentMethod(saved.getPaymentMethod())
+                        .setEventType("BILL_CREATED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        billingProducer.publishBillCreated(event);
 
         return BillingMapper.toDTO(saved);
     }
@@ -89,6 +106,20 @@ public class BillingService {
         Bill updated =
                 billingRepository.save(bill);
 
+        BillingEvent event =
+                BillingEvent.newBuilder()
+                        .setBillId(updated.getBillId().toString())
+                        .setAppointmentId(updated.getAppointmentId().toString())
+                        .setPatientId(updated.getPatientId().toString())
+                        .setAmount(updated.getAmount())
+                        .setPaymentMethod(updated.getPaymentMethod())
+                        .setPaymentStatus(updated.getPaymentStatus().name())
+                        .setEventType("BILL_PAID")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        billingProducer.publishBillPaid(event);
+
         return BillingMapper.toDTO(updated);
     }
 
@@ -103,24 +134,37 @@ public class BillingService {
                                                 + billId));
 
         billingRepository.delete(bill);
+
+        BillingEvent event =
+                BillingEvent.newBuilder()
+                        .setBillId(bill.getBillId().toString())
+                        .setPatientId(bill.getPatientId().toString())
+                        .setAppointmentId(bill.getAppointmentId().toString())
+                        .setEventType("BILL_DELETED")
+                        .setOccurredAt(LocalDateTime.now().toString())
+                        .build();
+
+        billingProducer.publishBillDeleted(event);
+
+        billingRepository.delete(bill);
     }
-
-    public void createBillingFromAppointment(
-            AppointmentCreatedEvent event) {
-
-        Bill billing = new Bill();
-
-        billing.setPatientId(
-                UUID.fromString(event.getPatientId()));
-
-        billing.setAppointmentId(
-                UUID.fromString(event.getAppointmentId()));
-
-        billing.setAmount(1000.0);
-
-        billing.setPaymentStatus(
-                PaymentStatus.PENDING);
-
-        billingRepository.save(billing);
-    }
+//
+//    public void createBillingFromAppointment(
+//            AppointmentEv event) {
+//
+//        Bill billing = new Bill();
+//
+//        billing.setPatientId(
+//                UUID.fromString(event.getPatientId()));
+//
+//        billing.setAppointmentId(
+//                UUID.fromString(event.getAppointmentId()));
+//
+//        billing.setAmount(1000.0);
+//
+//        billing.setPaymentStatus(
+//                PaymentStatus.PENDING);
+//
+//        billingRepository.save(billing);
+//    }
 }

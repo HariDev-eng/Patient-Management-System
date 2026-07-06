@@ -1,4 +1,4 @@
-package com.pm.prescriptiosvc.dto;
+package src.main.java.com.pm.prescriptiosvc.dto;
 
 import lombok.Data;
 

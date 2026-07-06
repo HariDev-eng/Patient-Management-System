@@ -2,14 +2,17 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /build
 
-COPY kafka-events ./kafka-events
 
-WORKDIR /build/kafka-events
+COPY proto ./proto
+
+WORKDIR /build/proto
 RUN mvn clean install -DskipTests
 
+WORKDIR /build
+
+COPY nurse-service ./nurse-service
+
 WORKDIR /build/nurse-service
-COPY nurse-service/pom.xml .
-COPY nurse-service/src ./src
 
 RUN mvn clean package -DskipTests
 

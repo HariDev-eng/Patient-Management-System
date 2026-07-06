@@ -26,10 +26,10 @@ public final class BillingCreated {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_events_BillingCreatedEvent_descriptor;
+    internal_static_events_BillingEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_events_BillingCreatedEvent_fieldAccessorTable;
+      internal_static_events_BillingEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -39,22 +39,23 @@ public final class BillingCreated {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\034events/billing_created.proto\022\006events\"\206" +
-      "\001\n\023BillingCreatedEvent\022\016\n\006billId\030\001 \001(\t\022\021" +
-      "\n\tpatientId\030\002 \001(\t\022\016\n\006amount\030\003 \001(\001\022\025\n\rpay" +
-      "mentStatus\030\004 \001(\t\022\021\n\teventType\030\005 \001(\t\022\022\n\no" +
-      "ccurredAt\030\006 \001(\tB\002P\001b\006proto3"
+      "\n\034events/billing_created.proto\022\006events\"\255" +
+      "\001\n\014BillingEvent\022\016\n\006billId\030\001 \001(\t\022\021\n\tpatie" +
+      "ntId\030\002 \001(\t\022\025\n\rappointmentId\030\003 \001(\t\022\016\n\006amo" +
+      "unt\030\004 \001(\001\022\025\n\rpaymentMethod\030\005 \001(\t\022\025\n\rpaym" +
+      "entStatus\030\006 \001(\t\022\021\n\teventType\030\007 \001(\t\022\022\n\noc" +
+      "curredAt\030\010 \001(\tB\002P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_events_BillingCreatedEvent_descriptor =
+    internal_static_events_BillingEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_events_BillingCreatedEvent_fieldAccessorTable = new
+    internal_static_events_BillingEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_events_BillingCreatedEvent_descriptor,
-        new java.lang.String[] { "BillId", "PatientId", "Amount", "PaymentStatus", "EventType", "OccurredAt", });
+        internal_static_events_BillingEvent_descriptor,
+        new java.lang.String[] { "BillId", "PatientId", "AppointmentId", "Amount", "PaymentMethod", "PaymentStatus", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

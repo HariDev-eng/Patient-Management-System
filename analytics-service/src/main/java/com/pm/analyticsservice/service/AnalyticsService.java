@@ -1,24 +1,17 @@
 package com.pm.analyticsservice.service;
 
-import com.pm.analyticsservice.Repository.AnalyticsAppointmentRepository;
-import com.pm.analyticsservice.Repository.AnalyticsDoctorRepository;
-import com.pm.analyticsservice.Repository.AnalyticsPatientRepository;
-import com.pm.analyticsservice.Repository.AnalyticsVitalRepository;
+import com.pm.analyticsservice.Repository.*;
 import com.pm.analyticsservice.dto.*;
 import com.pm.analyticsservice.mapper.AnalyticsAppointmentMapper;
 import com.pm.analyticsservice.mapper.AnalyticsDoctorMapper;
 import com.pm.analyticsservice.mapper.AnalyticsPatientMapper;
 import com.pm.analyticsservice.mapper.AnalyticsVitalMapper;
-import com.pm.analyticsservice.model.AnalyticAppointment;
-import com.pm.analyticsservice.model.AnalyticPatient;
-import com.pm.analyticsservice.model.AnalyticsDoctor;
-import com.pm.analyticsservice.model.AnalyticsVital;
-import events.AppointmentEvent;
-import events.DoctorEvent;
-import events.PatientEvent;
+import com.pm.analyticsservice.model.*;
+import events.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +27,10 @@ public class AnalyticsService {
     private final AnalyticsDoctorRepository doctorRepository;
     private final AnalyticsDoctorMapper doctorMapper;
     private final AnalyticsAppointmentRepository appointmentRepository;
+    private final AnalyticsBillRepository billRepository;
+    private final AnalyticsPrescriptionRepository prescriptionRepository;
+    private final  AnalyticsDiagnosisRepository diagnosisRepository;
+    private final AnalyticsInventoryRepository inventoryRepository;
 
     private final AnalyticsAppointmentMapper appointmentMapper;
 
@@ -93,27 +90,6 @@ public class AnalyticsService {
         return repository.countByOxygenSaturationLessThan(95);
     }
 
-    //    public void saveVital(
-//            VitalsRecordedEvent event) {
-//
-//        AnalyticsVital vital =
-//                AnalyticsVital.builder()
-//                        .vitalId(event.getVitalId())
-//                        .patientId(event.getPatientId())
-//                        .nurseId(event.getNurseId())
-//                        .temperature(event.getTemperature())
-//                        .heartRate(event.getHeartRate())
-//                        .systolicBP(event.getSystolicBP())
-//                        .diastolicBP(event.getDiastolicBP())
-//                        .weight(event.getWeight())
-//                        .height(event.getHeight())
-//                        .oxygenSaturation(event.getOxygenSaturation())
-//                        .recordedAt(event.getRecordedAt())
-//                        .build();
-//
-//        repository.save(vital);
-//    }
-//
     public void savePatient(PatientEvent event) {
 
         UUID patientId = UUID.fromString(event.getPatientId());
@@ -389,5 +365,279 @@ public class AnalyticsService {
 
     public Long getAppointmentCount() {
         return appointmentRepository.count();
+    }
+
+    public void saveBill(BillingEvent event) {
+
+        AnalyticsBill bill =
+                AnalyticsBill.builder()
+                        .billId(UUID.fromString(event.getBillId()))
+                        .patientId(UUID.fromString(event.getPatientId()))
+                        .appointmentId(UUID.fromString(event.getAppointmentId()))
+                        .amount(event.getAmount())
+                        .paymentMethod(event.getPaymentMethod())
+                        .paymentStatus(event.getPaymentStatus())
+                        .eventType(event.getEventType())
+                        .occurredAt(LocalDateTime.parse(event.getOccurredAt()))
+                        .build();
+
+        billRepository.save(bill);
+    }
+
+    public void markBillPaid(BillingEvent event) {
+
+        AnalyticsBill bill =
+                billRepository.findById(
+                                UUID.fromString(event.getBillId()))
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Bill not found"));
+
+        bill.setPaymentStatus(event.getPaymentStatus());
+        bill.setEventType(event.getEventType());
+        bill.setOccurredAt(
+                LocalDateTime.parse(event.getOccurredAt()));
+
+        billRepository.save(bill);
+    }
+
+    public void cancelBill(BillingEvent event) {
+
+        AnalyticsBill bill =
+                billRepository.findById(
+                                UUID.fromString(event.getBillId()))
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Bill not found"));
+
+        bill.setEventType(event.getEventType());
+        bill.setOccurredAt(
+                LocalDateTime.parse(event.getOccurredAt()));
+
+        billRepository.save(bill);
+    }
+
+    public void saveVital(VitalsRecordedEvent event) {
+
+        AnalyticsVital vital =
+                AnalyticsVital.builder()
+                        .vitalId(UUID.fromString(event.getVitalId()))
+                        .patientId(UUID.fromString(event.getPatientId()))
+                        .nurseId(UUID.fromString(event.getNurseId()))
+                        .temperature(event.getTemperature())
+                        .heartRate(event.getHeartRate())
+                        .systolicBP(event.getSystolicBP())
+                        .diastolicBP(event.getDiastolicBP())
+                        .weight(event.getWeight())
+                        .height(event.getHeight())
+                        .oxygenSaturation(event.getOxygenSaturation())
+                        .recordedAt(LocalDateTime.parse(event.getRecordedAt()))
+                        .build();
+
+        repository.save(vital);
+    }
+
+    public void savePrescription(
+            PrescriptionEvent event) {
+
+        AnalyticsPrescription prescription =
+                AnalyticsPrescription.builder()
+                        .prescriptionId(
+                                UUID.fromString(event.getPrescriptionId()))
+                        .patientId(
+                                UUID.fromString(event.getPatientId()))
+                        .doctorId(
+                                UUID.fromString(event.getDoctorId()))
+                        .diagnosisId(
+                                UUID.fromString(event.getDiagnosisId()))
+                        .appointmentId(
+                                UUID.fromString(event.getAppointmentId()))
+                        .medicineCount(
+                                event.getMedicineCount())
+                        .eventType(
+                                event.getEventType())
+                        .occurredAt(
+                                LocalDateTime.parse(event.getOccurredAt()))
+                        .build();
+
+        prescriptionRepository.save(prescription);
+    }
+
+    public void updatePrescription(PrescriptionEvent event) {
+
+        UUID prescriptionId =
+                UUID.fromString(event.getPrescriptionId());
+
+        AnalyticsPrescription prescription =
+                prescriptionRepository.findById(prescriptionId)
+                        .orElseGet(() ->
+                                AnalyticsPrescription.builder()
+                                        .prescriptionId(prescriptionId)
+                                        .build());
+
+        prescription.setPatientId(
+                UUID.fromString(event.getPatientId()));
+
+        prescription.setDoctorId(
+                UUID.fromString(event.getDoctorId()));
+
+        prescription.setDiagnosisId(
+                UUID.fromString(event.getDiagnosisId()));
+
+        prescription.setAppointmentId(
+                UUID.fromString(event.getAppointmentId()));
+
+        prescription.setMedicineCount(
+                event.getMedicineCount());
+
+        prescription.setEventType(
+                event.getEventType());
+
+        prescription.setOccurredAt(
+                LocalDateTime.parse(event.getOccurredAt()));
+
+        prescriptionRepository.save(prescription);
+    }
+
+    public void deletePrescription(PrescriptionEvent event) {
+
+        prescriptionRepository.deleteById(
+                UUID.fromString(event.getPrescriptionId()));
+    }
+
+    public void saveDiagnosis(DiagnosisEvent event) {
+
+        AnalyticsDiagnosis diagnosis =
+                AnalyticsDiagnosis.builder()
+                        .diagnosisId(UUID.fromString(event.getDiagnosisId()))
+                        .patientId(UUID.fromString(event.getPatientId()))
+                        .doctorId(UUID.fromString(event.getDoctorId()))
+                        .appointmentId(UUID.fromString(event.getAppointmentId()))
+                        .diagnosis(event.getDiagnosis())
+                        .followUpRequired(event.getFollowUpRequired())
+                        .followUpDays(event.getFollowUpDays())
+                        .followUpDate(
+                                event.getFollowUpDate().isBlank()
+                                        ? null
+                                        : LocalDate.parse(event.getFollowUpDate()))
+                        .eventType(event.getEventType())
+                        .occurredAt(LocalDateTime.parse(event.getOccurredAt()))
+                        .build();
+
+        diagnosisRepository.save(diagnosis);
+    }
+
+    public void updateDiagnosis(DiagnosisEvent event) {
+
+        UUID diagnosisId =
+                UUID.fromString(event.getDiagnosisId());
+
+        AnalyticsDiagnosis diagnosis =
+                diagnosisRepository.findById(diagnosisId)
+                        .orElseGet(() ->
+                                AnalyticsDiagnosis.builder()
+                                        .diagnosisId(diagnosisId)
+                                        .build());
+
+        diagnosis.setPatientId(
+                UUID.fromString(event.getPatientId()));
+
+        diagnosis.setDoctorId(
+                UUID.fromString(event.getDoctorId()));
+
+        diagnosis.setAppointmentId(
+                UUID.fromString(event.getAppointmentId()));
+
+        diagnosis.setDiagnosis(
+                event.getDiagnosis());
+
+        diagnosis.setFollowUpRequired(
+                event.getFollowUpRequired());
+
+        diagnosis.setFollowUpDays(
+                event.getFollowUpDays());
+
+        diagnosis.setFollowUpDate(
+                event.getFollowUpDate().isBlank()
+                        ? null
+                        : LocalDate.parse(event.getFollowUpDate()));
+
+        diagnosis.setEventType(
+                event.getEventType());
+
+        diagnosis.setOccurredAt(
+                LocalDateTime.parse(event.getOccurredAt()));
+
+        diagnosisRepository.save(diagnosis);
+    }
+
+    public void deleteDiagnosis(DiagnosisEvent event) {
+
+        diagnosisRepository.deleteById(
+                UUID.fromString(event.getDiagnosisId()));
+    }
+
+    public void saveInventory(InventoryEvent event) {
+
+        AnalyticInventory inventory =
+                AnalyticInventory.builder()
+                        .inventoryId(UUID.fromString(event.getInventoryId()))
+                        .itemName(event.getItemName())
+                        .itemCode(event.getItemCode())
+                        .quantity(event.getQuantity())
+                        .minimumStock(event.getMinimumStock())
+                        .unitPrice(event.getUnitPrice())
+                        .status(event.getStatus())
+                        .eventType(event.getEventType())
+                        .occurredAt(LocalDateTime.parse(event.getOccurredAt()))
+                        .build();
+
+        inventoryRepository.save(inventory);
+    }
+
+    public void updateInventory(InventoryEvent event) {
+
+        UUID inventoryId =
+                UUID.fromString(event.getInventoryId());
+
+        AnalyticInventory inventory =
+                inventoryRepository.findById(inventoryId)
+                        .orElseGet(() ->
+                                AnalyticInventory.builder()
+                                        .inventoryId(inventoryId)
+                                        .build());
+
+        if (!event.getItemName().isBlank()) {
+            inventory.setItemName(event.getItemName());
+        }
+
+        if (!event.getItemCode().isBlank()) {
+            inventory.setItemCode(event.getItemCode());
+        }
+
+        inventory.setQuantity(event.getQuantity());
+        inventory.setMinimumStock(event.getMinimumStock());
+        inventory.setUnitPrice(event.getUnitPrice());
+
+        if (!event.getStatus().isBlank()) {
+            inventory.setStatus(event.getStatus());
+        }
+
+        inventory.setEventType(event.getEventType());
+
+        inventory.setOccurredAt(
+                LocalDateTime.parse(event.getOccurredAt()));
+
+        inventoryRepository.save(inventory);
+
+        System.out.println("Inventory updated successfully.");
+    }
+
+    public void deleteInventory(InventoryEvent event) {
+
+        inventoryRepository.deleteById(
+                UUID.fromString(event.getInventoryId()));
+
+        System.out.println("Inventory deleted successfully.");
     }
 }

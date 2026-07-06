@@ -1,11 +1,11 @@
-package com.pm.prescriptiosvc.controller;
+package src.main.java.com.pm.prescriptiosvc.controller;
 
-import com.pm.prescriptiosvc.dto.PrescriptionRequestDTO;
-import com.pm.prescriptiosvc.dto.PrescriptionResponseDTO;
-import com.pm.prescriptiosvc.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionRequestDTO;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionResponseDTO;
+import src.main.java.com.pm.prescriptiosvc.service.PrescriptionService;
 
 import java.util.List;
 import java.util.UUID;

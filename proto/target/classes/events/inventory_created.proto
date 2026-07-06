@@ -4,17 +4,23 @@ package events;
 
 option java_multiple_files = true;
 
-message InventoryCreatedEvent {
+message InventoryEvent {
 
   string inventoryId = 1;
 
   string itemName = 2;
 
-  int32 quantity = 3;
+  string itemCode = 3;
 
-  int32 minimumStock = 4;
+  int32 quantity = 4;
 
-  string eventType = 5;
+  int32 minimumStock = 5;
 
-  string occurredAt = 6;
+  double unitPrice = 6;
+
+  string status = 7;
+
+  string eventType = 8;
+
+  string occurredAt = 9;
 }

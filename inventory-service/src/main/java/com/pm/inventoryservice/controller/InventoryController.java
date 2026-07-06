@@ -1,7 +1,9 @@
 package com.pm.inventoryservice.controller;
 
+import com.pm.inventoryservice.dto.ConsumeStockRequestDTO;
 import com.pm.inventoryservice.dto.InventoryRequestDTO;
 import com.pm.inventoryservice.dto.InventoryResponseDTO;
+import com.pm.inventoryservice.dto.RestockRequestDTO;
 import com.pm.inventoryservice.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -72,5 +74,23 @@ public class InventoryController {
 
         return ResponseEntity.ok(
                 inventoryService.getLowStockItems());
+    }
+
+    @PatchMapping("/{id}/consume")
+    public ResponseEntity<InventoryResponseDTO> consumeStock(
+            @PathVariable UUID id,
+            @Valid @RequestBody ConsumeStockRequestDTO request) {
+
+        return ResponseEntity.ok(
+                inventoryService.consumeStock(id, request));
+    }
+
+    @PatchMapping("/{id}/restock")
+    public ResponseEntity<InventoryResponseDTO> restockItem(
+            @PathVariable UUID id,
+            @Valid @RequestBody RestockRequestDTO request) {
+
+        return ResponseEntity.ok(
+                inventoryService.restockItem(id, request));
     }
 }

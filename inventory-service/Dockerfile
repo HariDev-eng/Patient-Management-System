@@ -2,15 +2,16 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 WORKDIR /build
 
-COPY kafka-events ./kafka-events
+COPY proto ./proto
 
-WORKDIR /build/kafka-events
+WORKDIR /build/proto
 RUN mvn clean install -DskipTests
 
-WORKDIR /build/inventory-service
+WORKDIR /build
 
-COPY inventory-service/pom.xml .
-COPY inventory-service/src ./src
+COPY inventory-service ./inventory-service
+
+WORKDIR /build/inventory-service
 
 RUN mvn clean package -DskipTests
 

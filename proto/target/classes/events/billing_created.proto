@@ -4,17 +4,21 @@ package events;
 
 option java_multiple_files = true;
 
-message BillingCreatedEvent {
+message BillingEvent {
 
   string billId = 1;
 
   string patientId = 2;
 
-  double amount = 3;
+  string appointmentId = 3;
 
-  string paymentStatus = 4;
+  double amount = 4;
 
-  string eventType = 5;
+  string paymentMethod = 5;
 
-  string occurredAt = 6;
+  string paymentStatus = 6;
+
+  string eventType = 7;
+
+  string occurredAt = 8;
 }
