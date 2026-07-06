@@ -1,4 +1,4 @@
-package com.pm.prescriptiosvc;
+package src.main.java.com.pm.prescriptiosvc;
 
 
 import org.springframework.boot.SpringApplication;

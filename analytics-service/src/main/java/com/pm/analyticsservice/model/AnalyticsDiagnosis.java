@@ -4,11 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +23,17 @@ public class AnalyticsDiagnosis {
 
     private UUID doctorId;
 
+    private UUID appointmentId;
+
     private String diagnosis;
 
-    private LocalDateTime createdAt;
+    private Boolean followUpRequired;
+
+    private Integer followUpDays;
+
+    private LocalDate followUpDate;
+
+    private String eventType;
+
+    private LocalDateTime occurredAt;
 }

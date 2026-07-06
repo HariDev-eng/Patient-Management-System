@@ -2,12 +2,15 @@ package com.pm.analyticsservice.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Entity
+@Table(name = "analytics_prescriptions")
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +26,11 @@ public class AnalyticsPrescription {
 
     private UUID diagnosisId;
 
-    private Integer medicinesCount;
+    private UUID appointmentId;
 
-    private LocalDateTime createdAt;
+    private Integer medicineCount;
+
+    private String eventType;
+
+    private LocalDateTime occurredAt;
 }

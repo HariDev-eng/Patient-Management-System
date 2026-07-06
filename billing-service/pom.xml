@@ -51,8 +51,12 @@
         </dependency>
         <dependency>
             <groupId>com.pm</groupId>
-            <artifactId>kafka-events</artifactId>
+            <artifactId>proto</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -86,24 +90,6 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
-            <version>1.69.0</version>
-        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -111,21 +97,13 @@
         </dependency>
 
         <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>1.69.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>1.69.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>net.devh</groupId>
             <artifactId>grpc-client-spring-boot-starter</artifactId>
             <version>3.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
 
@@ -144,35 +122,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <!-- PROTO -->
-            <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.6.1</version>
-
-
-                <configuration>
-                    <protoSourceRoot>${project.basedir}/../proto</protoSourceRoot>
-                    <protocArtifact>
-                        com.google.protobuf:protoc:3.25.5:exe:${os.detected.classifier}
-                    </protocArtifact>
-
-                    <pluginId>grpc-java</pluginId>
-
-                    <pluginArtifact>
-                        io.grpc:protoc-gen-grpc-java:1.69.0:exe:${os.detected.classifier}
-                    </pluginArtifact>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

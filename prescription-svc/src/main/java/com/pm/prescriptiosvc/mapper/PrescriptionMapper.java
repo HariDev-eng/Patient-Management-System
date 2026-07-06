@@ -1,12 +1,11 @@
-package com.pm.prescriptiosvc.mapper;
+package src.main.java.com.pm.prescriptiosvc.mapper;
 
-
-
-import com.pm.prescriptiosvc.dto.PrescriptionItemResponseDTO;
-import com.pm.prescriptiosvc.dto.PrescriptionRequestDTO;
-import com.pm.prescriptiosvc.dto.PrescriptionResponseDTO;
-import com.pm.prescriptiosvc.model.Prescription;
-import com.pm.prescriptiosvc.model.PrescriptionItem;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionItemRequestDTO;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionItemResponseDTO;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionRequestDTO;
+import src.main.java.com.pm.prescriptiosvc.dto.PrescriptionResponseDTO;
+import src.main.java.com.pm.prescriptiosvc.model.Prescription;
+import src.main.java.com.pm.prescriptiosvc.model.PrescriptionItem;
 
 import java.util.List;
 
@@ -26,15 +25,8 @@ public class PrescriptionMapper {
         List<PrescriptionItem> items =
                 dto.getItems()
                         .stream()
-                        .map(item ->
-                                PrescriptionItem.builder()
-                                        .medicineName(item.getMedicineName())
-                                        .dosage(item.getDosage())
-                                        .frequency(item.getFrequency())
-                                        .durationDays(item.getDurationDays())
-                                        .instructions(item.getInstructions())
-                                        .prescription(prescription)
-                                        .build())
+                        .map(PrescriptionMapper::toItemEntity)
+                        .peek(item -> item.setPrescription(prescription))
                         .toList();
 
         prescription.setItems(items);
@@ -72,6 +64,18 @@ public class PrescriptionMapper {
                                                 .instructions(item.getInstructions())
                                                 .build())
                                 .toList())
+                .build();
+    }
+
+    public static PrescriptionItem toItemEntity(
+            PrescriptionItemRequestDTO itemDto) {
+
+        return PrescriptionItem.builder()
+                .medicineName(itemDto.getMedicineName())
+                .dosage(itemDto.getDosage())
+                .frequency(itemDto.getFrequency())
+                .durationDays(itemDto.getDurationDays())
+                .instructions(itemDto.getInstructions())
                 .build();
     }
 }

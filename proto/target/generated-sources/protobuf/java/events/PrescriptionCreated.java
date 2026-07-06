@@ -26,10 +26,10 @@ public final class PrescriptionCreated {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_events_PrescriptionCreatedEvent_descriptor;
+    internal_static_events_PrescriptionEvent_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_events_PrescriptionCreatedEvent_fieldAccessorTable;
+      internal_static_events_PrescriptionEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -40,22 +40,23 @@ public final class PrescriptionCreated {
   static {
     java.lang.String[] descriptorData = {
       "\n!events/prescription_created.proto\022\006eve" +
-      "nts\"\253\001\n\030PrescriptionCreatedEvent\022\026\n\016pres" +
-      "criptionId\030\001 \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010d" +
-      "octorId\030\003 \001(\t\022\023\n\013diagnosisId\030\004 \001(\t\022\026\n\016me" +
-      "dicinesCount\030\005 \001(\005\022\021\n\teventType\030\006 \001(\t\022\022\n" +
-      "\noccurredAt\030\007 \001(\tB\002P\001b\006proto3"
+      "nts\"\272\001\n\021PrescriptionEvent\022\026\n\016prescriptio" +
+      "nId\030\001 \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010doctorId" +
+      "\030\003 \001(\t\022\023\n\013diagnosisId\030\004 \001(\t\022\025\n\rappointme" +
+      "ntId\030\005 \001(\t\022\025\n\rmedicineCount\030\006 \001(\005\022\021\n\teve" +
+      "ntType\030\007 \001(\t\022\022\n\noccurredAt\030\010 \001(\tB\002P\001b\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_events_PrescriptionCreatedEvent_descriptor =
+    internal_static_events_PrescriptionEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_events_PrescriptionCreatedEvent_fieldAccessorTable = new
+    internal_static_events_PrescriptionEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_events_PrescriptionCreatedEvent_descriptor,
-        new java.lang.String[] { "PrescriptionId", "PatientId", "DoctorId", "DiagnosisId", "MedicinesCount", "EventType", "OccurredAt", });
+        internal_static_events_PrescriptionEvent_descriptor,
+        new java.lang.String[] { "PrescriptionId", "PatientId", "DoctorId", "DiagnosisId", "AppointmentId", "MedicineCount", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

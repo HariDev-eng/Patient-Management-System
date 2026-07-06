@@ -4,7 +4,7 @@ package events;
 
 option java_multiple_files = true;
 
-message DiagnosisCreatedEvent {
+message DiagnosisEvent {
 
   string diagnosisId = 1;
 
@@ -12,9 +12,17 @@ message DiagnosisCreatedEvent {
 
   string doctorId = 3;
 
-  string diagnosis = 4;
+  string appointmentId = 4;
 
-  string eventType = 5;
+  string diagnosis = 5;
 
-  string occurredAt = 6;
+  bool followUpRequired = 6;
+
+  int32 followUpDays = 7;
+
+  string followUpDate = 8;
+
+  string eventType = 9;
+
+  string occurredAt = 10;
 }

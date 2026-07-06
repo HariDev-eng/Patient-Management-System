@@ -1,4 +1,4 @@
-package com.pm.prescriptiosvc.model;
+package src.main.java.com.pm.prescriptiosvc.model;
 
 import jakarta.persistence.*;
 import lombok.*;

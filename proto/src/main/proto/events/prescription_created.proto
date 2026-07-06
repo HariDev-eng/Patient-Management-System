@@ -4,7 +4,7 @@ package events;
 
 option java_multiple_files = true;
 
-message PrescriptionCreatedEvent {
+message PrescriptionEvent {
 
   string prescriptionId = 1;
 
@@ -14,9 +14,11 @@ message PrescriptionCreatedEvent {
 
   string diagnosisId = 4;
 
-  int32 medicinesCount = 5;
+  string appointmentId = 5;
 
-  string eventType = 6;
+  int32 medicineCount = 6;
 
-  string occurredAt = 7;
+  string eventType = 7;
+
+  string occurredAt = 8;
 }

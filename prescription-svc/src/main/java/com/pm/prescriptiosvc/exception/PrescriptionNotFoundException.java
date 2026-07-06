@@ -1,4 +1,4 @@
-package com.pm.prescriptiosvc.exception;
+package src.main.java.com.pm.prescriptiosvc.exception;
 
 public class PrescriptionNotFoundException
         extends RuntimeException {
