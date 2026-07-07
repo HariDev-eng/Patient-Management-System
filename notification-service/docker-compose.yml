@@ -1,0 +1,21 @@
+services:
+
+  notification-db:
+    image: postgres:17
+    container_name: notification-db
+
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5439:5432"
+
+    volumes:
+      - notification_db_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+volumes:
+  notification_db_data:
