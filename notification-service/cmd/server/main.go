@@ -2,10 +2,9 @@ package main
 
 import (
 	"github.com/haridev-eng/patient-management/notification-service/internal/api"
-	"github.com/haridev-eng/patient-management/notification-service/internal/configs"
+	config "github.com/haridev-eng/patient-management/notification-service/internal/configs"
 	"github.com/haridev-eng/patient-management/notification-service/internal/db"
 	"github.com/haridev-eng/patient-management/notification-service/internal/logger"
-	"go.uber.org/zap"
 )
 
 func main() {
@@ -20,14 +19,10 @@ func main() {
 	router := api.SetupRouter()
 
 	logger.Log.Info(
-		"Notification Service started",
-		zap.String("service", "notification-service"),
-		zap.String("port", cfg.Port),
+		"Notification Service Started",
 	)
 
 	if err := router.Run(":" + cfg.Port); err != nil {
-		logger.Log.Fatal(
-			"Failed to start server",
-		)
+		logger.Log.Fatal(err.Error())
 	}
 }
