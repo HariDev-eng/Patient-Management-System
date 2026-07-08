@@ -9,9 +9,10 @@ import (
 type NotificationStatus string
 
 const (
-	StatusPending NotificationStatus = "PENDING"
-	StatusSent    NotificationStatus = "SENT"
-	StatusFailed  NotificationStatus = "FAILED"
+	StatusPending    NotificationStatus = "PENDING"
+	StatusProcessing NotificationStatus = "PROCESSING"
+	StatusSent       NotificationStatus = "SENT"
+	StatusFailed     NotificationStatus = "FAILED"
 )
 
 type NotificationChannel string
@@ -25,17 +26,32 @@ const (
 type Notification struct {
 	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 
-	Recipient string
+	// Who should receive the notification
+	Recipient string `gorm:"not null"`
 
-	Channel string
+	// EMAIL | SMS | WEBSOCKET
+	Channel NotificationChannel `gorm:"type:varchar(20);not null"`
 
-	Subject string
+	// Business event
+	EventType string `gorm:"size:100;not null"`
 
-	Message string
+	// Appointment ID, Bill ID, Patient ID, etc.
+	ReferenceID string `gorm:"size:100"`
 
-	Status string
+	// Email subject (unused for SMS/WebSocket)
+	Subject string `gorm:"size:255"`
 
-	RetryCount int
+	// Notification content
+	Message string `gorm:"type:text;not null"`
+
+	// PENDING | PROCESSING | SENT | FAILED
+	Status NotificationStatus `gorm:"type:varchar(20);not null;default:'PENDING'"`
+
+	// Number of retry attempts
+	RetryCount int `gorm:"default:0"`
+
+	// Error message if delivery fails
+	ErrorMessage string `gorm:"type:text"`
 
 	CreatedAt time.Time
 

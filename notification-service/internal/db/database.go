@@ -35,16 +35,19 @@ func Connect(cfg *config.Config) {
 
 	DB = db
 
-	err = DB.AutoMigrate(
-		&model.Notification{},
-	)
+	logger.Log.Info("Connected to PostgreSQL")
 
-	if err != nil {
+	if err := migrate(); err != nil {
 		logger.Log.Fatal(
 			"Migration failed",
 			zap.Error(err),
 		)
 	}
+}
 
-	logger.Log.Info("Connected to PostgreSQL")
+func migrate() error {
+
+	return DB.AutoMigrate(
+		&model.Notification{},
+	)
 }
