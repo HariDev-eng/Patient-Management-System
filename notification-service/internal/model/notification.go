@@ -18,9 +18,9 @@ const (
 type NotificationChannel string
 
 const (
-	ChannelEmail     NotificationChannel = "EMAIL"
-	ChannelSMS       NotificationChannel = "SMS"
-	ChannelWebSocket NotificationChannel = "WEBSOCKET"
+	ChannelEmail NotificationChannel = "EMAIL"
+	ChannelSMS   NotificationChannel = "SMS"
+	ChannelInApp NotificationChannel = "IN_APP"
 )
 
 type Notification struct {

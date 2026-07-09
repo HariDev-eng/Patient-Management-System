@@ -16,7 +16,7 @@ func main() {
 
 	db.Connect(cfg)
 
-	router := api.SetupRouter()
+	router := api.SetupRouter(db.DB)
 
 	logger.Log.Info(
 		"Notification Service Started",

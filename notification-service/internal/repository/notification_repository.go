@@ -4,12 +4,17 @@ import (
 	"github.com/google/uuid"
 	"github.com/haridev-eng/patient-management/notification-service/internal/db"
 	"github.com/haridev-eng/patient-management/notification-service/internal/model"
+	"gorm.io/gorm"
 )
 
-type NotificationRepository struct{}
+type NotificationRepository struct {
+	db *gorm.DB
+}
 
-func NewNotificationRepository() *NotificationRepository {
-	return &NotificationRepository{}
+func NewNotificationRepository(db *gorm.DB) *NotificationRepository {
+	return &NotificationRepository{
+		db: db,
+	}
 }
 
 func (r *NotificationRepository) Save(
