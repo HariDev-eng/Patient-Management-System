@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/haridev-eng/patient-management/notification-service/internal/mapper"
 
 	"github.com/haridev-eng/patient-management/notification-service/internal/dto"
 	"github.com/haridev-eng/patient-management/notification-service/internal/service"
@@ -59,7 +60,9 @@ func (h *NotificationHandler) CreateNotification(
 		return
 	}
 
-	c.JSON(http.StatusCreated, notification)
+	c.JSON(
+		http.StatusCreated,
+		mapper.ToResponse(notification))
 }
 
 func (h *NotificationHandler) GetAllNotifications(
@@ -78,7 +81,10 @@ func (h *NotificationHandler) GetAllNotifications(
 		return
 	}
 
-	c.JSON(http.StatusOK, notifications)
+	c.JSON(
+		http.StatusOK,
+		mapper.ToResponseList(notifications),
+	)
 }
 
 func (h *NotificationHandler) GetNotificationByID(
@@ -108,5 +114,8 @@ func (h *NotificationHandler) GetNotificationByID(
 		return
 	}
 
-	c.JSON(http.StatusOK, notification)
+	c.JSON(
+		http.StatusOK,
+		mapper.ToResponse(notification),
+	)
 }
