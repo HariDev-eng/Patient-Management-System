@@ -4,6 +4,8 @@ package events;
 
 option java_multiple_files = true;
 
+option go_package = "github.com/haridev-eng/patient-management/proto/gen/events";
+
 message PaymentCompletedEvent {
 
   string paymentId = 1;
