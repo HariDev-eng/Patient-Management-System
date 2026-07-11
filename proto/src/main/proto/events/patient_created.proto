@@ -3,18 +3,25 @@ syntax = "proto3";
 package events;
 
 option java_multiple_files = true;
-
 option go_package = "github.com/haridev-eng/patient-management/proto/gen/events";
 
 message PatientEvent {
 
   string patientId = 1;
 
-  string gender = 2;
+  string firstName = 2;
 
-  string bloodGroup = 3;
+  string lastName = 3;
 
-  string eventType = 4;
+  string email = 4;
 
-  string occurredAt = 5;
+  string phone = 5;
+
+  string gender = 6;
+
+  string bloodGroup = 7;
+
+  string eventType = 8;
+
+  string occurredAt = 9;
 }

@@ -22,48 +22,96 @@ public interface PatientEventOrBuilder extends
       getPatientIdBytes();
 
   /**
-   * <code>string gender = 2;</code>
+   * <code>string firstName = 2;</code>
+   * @return The firstName.
+   */
+  java.lang.String getFirstName();
+  /**
+   * <code>string firstName = 2;</code>
+   * @return The bytes for firstName.
+   */
+  com.google.protobuf.ByteString
+      getFirstNameBytes();
+
+  /**
+   * <code>string lastName = 3;</code>
+   * @return The lastName.
+   */
+  java.lang.String getLastName();
+  /**
+   * <code>string lastName = 3;</code>
+   * @return The bytes for lastName.
+   */
+  com.google.protobuf.ByteString
+      getLastNameBytes();
+
+  /**
+   * <code>string email = 4;</code>
+   * @return The email.
+   */
+  java.lang.String getEmail();
+  /**
+   * <code>string email = 4;</code>
+   * @return The bytes for email.
+   */
+  com.google.protobuf.ByteString
+      getEmailBytes();
+
+  /**
+   * <code>string phone = 5;</code>
+   * @return The phone.
+   */
+  java.lang.String getPhone();
+  /**
+   * <code>string phone = 5;</code>
+   * @return The bytes for phone.
+   */
+  com.google.protobuf.ByteString
+      getPhoneBytes();
+
+  /**
+   * <code>string gender = 6;</code>
    * @return The gender.
    */
   java.lang.String getGender();
   /**
-   * <code>string gender = 2;</code>
+   * <code>string gender = 6;</code>
    * @return The bytes for gender.
    */
   com.google.protobuf.ByteString
       getGenderBytes();
 
   /**
-   * <code>string bloodGroup = 3;</code>
+   * <code>string bloodGroup = 7;</code>
    * @return The bloodGroup.
    */
   java.lang.String getBloodGroup();
   /**
-   * <code>string bloodGroup = 3;</code>
+   * <code>string bloodGroup = 7;</code>
    * @return The bytes for bloodGroup.
    */
   com.google.protobuf.ByteString
       getBloodGroupBytes();
 
   /**
-   * <code>string eventType = 4;</code>
+   * <code>string eventType = 8;</code>
    * @return The eventType.
    */
   java.lang.String getEventType();
   /**
-   * <code>string eventType = 4;</code>
+   * <code>string eventType = 8;</code>
    * @return The bytes for eventType.
    */
   com.google.protobuf.ByteString
       getEventTypeBytes();
 
   /**
-   * <code>string occurredAt = 5;</code>
+   * <code>string occurredAt = 9;</code>
    * @return The occurredAt.
    */
   java.lang.String getOccurredAt();
   /**
-   * <code>string occurredAt = 5;</code>
+   * <code>string occurredAt = 9;</code>
    * @return The bytes for occurredAt.
    */
   com.google.protobuf.ByteString

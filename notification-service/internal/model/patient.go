@@ -13,9 +13,13 @@ type Patient struct {
 
 	LastName string
 
-	Email string `gorm:"uniqueIndex"`
+	Email string
 
 	Phone string
+
+	Gender string
+
+	BloodGroup string
 
 	CreatedAt time.Time
 

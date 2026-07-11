@@ -101,6 +101,10 @@ public class AnalyticsService {
 
         AnalyticPatient patient = AnalyticPatient.builder()
                 .patientId(patientId)
+                .firstName(event.getFirstName())
+                .lastName(event.getLastName())
+                .email(event.getEmail())
+                .phone(event.getPhone())
                 .gender(event.getGender())
                 .bloodGroup(event.getBloodGroup())
                 .eventType(event.getEventType())
@@ -120,14 +124,13 @@ public class AnalyticsService {
                 .orElseGet(() -> AnalyticPatient.builder()
                         .patientId(patientId)
                         .build());
-
-        if (!event.getGender().isBlank()) {
-            patient.setGender(event.getGender());
-        }
-
-        if (!event.getBloodGroup().isBlank()) {
-            patient.setBloodGroup(event.getBloodGroup());
-        }
+        
+        patient.setFirstName(event.getFirstName());
+        patient.setLastName(event.getLastName());
+        patient.setEmail(event.getEmail());
+        patient.setPhone(event.getPhone());
+        patient.setGender(event.getGender());
+        patient.setBloodGroup(event.getBloodGroup());
 
         patient.setEventType(event.getEventType());
         patient.setOccurredAt(LocalDateTime.parse(event.getOccurredAt()));

@@ -43,7 +43,9 @@ public final class PaymentCompleted {
       "\"\204\001\n\025PaymentCompletedEvent\022\021\n\tpaymentId\030" +
       "\001 \001(\t\022\016\n\006billId\030\002 \001(\t\022\021\n\tpatientId\030\003 \001(\t" +
       "\022\016\n\006amount\030\004 \001(\001\022\025\n\rpaymentMethod\030\005 \001(\t\022" +
-      "\016\n\006paidAt\030\006 \001(\tB\002P\001b\006proto3"
+      "\016\n\006paidAt\030\006 \001(\tB>P\001Z:github.com/haridev-" +
+      "eng/patient-management/proto/gen/eventsb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

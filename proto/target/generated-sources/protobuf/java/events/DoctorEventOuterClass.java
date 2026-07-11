@@ -44,7 +44,9 @@ public final class DoctorEventOuterClass {
       "me\030\002 \001(\t\022\020\n\010lastName\030\003 \001(\t\022\r\n\005email\030\004 \001(" +
       "\t\022\026\n\016specialization\030\005 \001(\t\022\032\n\022availabilit" +
       "yStatus\030\006 \001(\t\022\021\n\teventType\030\007 \001(\t\022\022\n\noccu" +
-      "rredAt\030\010 \001(\tB\002P\001b\006proto3"
+      "rredAt\030\010 \001(\tB>P\001Z:github.com/haridev-eng" +
+      "/patient-management/proto/gen/eventsb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

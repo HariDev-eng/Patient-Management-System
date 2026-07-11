@@ -43,7 +43,9 @@ public final class InventoryLowStock {
       "ts\"\216\001\n\026InventoryLowStockEvent\022\023\n\013invento" +
       "ryId\030\001 \001(\t\022\020\n\010itemName\030\002 \001(\t\022\020\n\010quantity" +
       "\030\003 \001(\005\022\024\n\014minimumStock\030\004 \001(\005\022\021\n\teventTyp" +
-      "e\030\005 \001(\t\022\022\n\noccurredAt\030\006 \001(\tB\002P\001b\006proto3"
+      "e\030\005 \001(\t\022\022\n\noccurredAt\030\006 \001(\tB>P\001Z:github." +
+      "com/haridev-eng/patient-management/proto" +
+      "/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -44,7 +44,9 @@ public final class BillingCreated {
       "ntId\030\002 \001(\t\022\025\n\rappointmentId\030\003 \001(\t\022\016\n\006amo" +
       "unt\030\004 \001(\001\022\025\n\rpaymentMethod\030\005 \001(\t\022\025\n\rpaym" +
       "entStatus\030\006 \001(\t\022\021\n\teventType\030\007 \001(\t\022\022\n\noc" +
-      "curredAt\030\010 \001(\tB\002P\001b\006proto3"
+      "curredAt\030\010 \001(\tB>P\001Z:github.com/haridev-e" +
+      "ng/patient-management/proto/gen/eventsb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

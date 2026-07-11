@@ -44,8 +44,9 @@ public final class InventoryCreated {
       "\022\020\n\010itemName\030\002 \001(\t\022\020\n\010itemCode\030\003 \001(\t\022\020\n\010" +
       "quantity\030\004 \001(\005\022\024\n\014minimumStock\030\005 \001(\005\022\021\n\t" +
       "unitPrice\030\006 \001(\001\022\016\n\006status\030\007 \001(\t\022\021\n\tevent" +
-      "Type\030\010 \001(\t\022\022\n\noccurredAt\030\t \001(\tB\002P\001b\006prot" +
-      "o3"
+      "Type\030\010 \001(\t\022\022\n\noccurredAt\030\t \001(\tB>P\001Z:gith" +
+      "ub.com/haridev-eng/patient-management/pr" +
+      "oto/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
