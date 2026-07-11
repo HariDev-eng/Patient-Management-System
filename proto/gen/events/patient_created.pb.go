@@ -24,10 +24,14 @@ const (
 type PatientEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PatientId     string                 `protobuf:"bytes,1,opt,name=patientId,proto3" json:"patientId,omitempty"`
-	Gender        string                 `protobuf:"bytes,2,opt,name=gender,proto3" json:"gender,omitempty"`
-	BloodGroup    string                 `protobuf:"bytes,3,opt,name=bloodGroup,proto3" json:"bloodGroup,omitempty"`
-	EventType     string                 `protobuf:"bytes,4,opt,name=eventType,proto3" json:"eventType,omitempty"`
-	OccurredAt    string                 `protobuf:"bytes,5,opt,name=occurredAt,proto3" json:"occurredAt,omitempty"`
+	FirstName     string                 `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName      string                 `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Email         string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	Phone         string                 `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty"`
+	Gender        string                 `protobuf:"bytes,6,opt,name=gender,proto3" json:"gender,omitempty"`
+	BloodGroup    string                 `protobuf:"bytes,7,opt,name=bloodGroup,proto3" json:"bloodGroup,omitempty"`
+	EventType     string                 `protobuf:"bytes,8,opt,name=eventType,proto3" json:"eventType,omitempty"`
+	OccurredAt    string                 `protobuf:"bytes,9,opt,name=occurredAt,proto3" json:"occurredAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -69,6 +73,34 @@ func (x *PatientEvent) GetPatientId() string {
 	return ""
 }
 
+func (x *PatientEvent) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *PatientEvent) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
+func (x *PatientEvent) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *PatientEvent) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
 func (x *PatientEvent) GetGender() string {
 	if x != nil {
 		return x.Gender
@@ -101,16 +133,20 @@ var File_events_patient_created_proto protoreflect.FileDescriptor
 
 const file_events_patient_created_proto_rawDesc = "" +
 	"\n" +
-	"\x1cevents/patient_created.proto\x12\x06events\"\xa2\x01\n" +
+	"\x1cevents/patient_created.proto\x12\x06events\"\x88\x02\n" +
 	"\fPatientEvent\x12\x1c\n" +
-	"\tpatientId\x18\x01 \x01(\tR\tpatientId\x12\x16\n" +
-	"\x06gender\x18\x02 \x01(\tR\x06gender\x12\x1e\n" +
+	"\tpatientId\x18\x01 \x01(\tR\tpatientId\x12\x1c\n" +
+	"\tfirstName\x18\x02 \x01(\tR\tfirstName\x12\x1a\n" +
+	"\blastName\x18\x03 \x01(\tR\blastName\x12\x14\n" +
+	"\x05email\x18\x04 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x05 \x01(\tR\x05phone\x12\x16\n" +
+	"\x06gender\x18\x06 \x01(\tR\x06gender\x12\x1e\n" +
 	"\n" +
-	"bloodGroup\x18\x03 \x01(\tR\n" +
+	"bloodGroup\x18\a \x01(\tR\n" +
 	"bloodGroup\x12\x1c\n" +
-	"\teventType\x18\x04 \x01(\tR\teventType\x12\x1e\n" +
+	"\teventType\x18\b \x01(\tR\teventType\x12\x1e\n" +
 	"\n" +
-	"occurredAt\x18\x05 \x01(\tR\n" +
+	"occurredAt\x18\t \x01(\tR\n" +
 	"occurredAtB>P\x01Z:github.com/haridev-eng/patient-management/proto/gen/eventsb\x06proto3"
 
 var (

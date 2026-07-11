@@ -45,7 +45,9 @@ public final class DiagnosisCreated {
       "\rappointmentId\030\004 \001(\t\022\021\n\tdiagnosis\030\005 \001(\t\022" +
       "\030\n\020followUpRequired\030\006 \001(\010\022\024\n\014followUpDay" +
       "s\030\007 \001(\005\022\024\n\014followUpDate\030\010 \001(\t\022\021\n\teventTy" +
-      "pe\030\t \001(\t\022\022\n\noccurredAt\030\n \001(\tB\002P\001b\006proto3"
+      "pe\030\t \001(\t\022\022\n\noccurredAt\030\n \001(\tB>P\001Z:github" +
+      ".com/haridev-eng/patient-management/prot" +
+      "o/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

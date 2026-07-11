@@ -44,7 +44,9 @@ public final class AppointmentEventOuterClass {
       " \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010doctorId\030\003 \001(" +
       "\t\022\033\n\023appointmentDateTime\030\004 \001(\t\022\016\n\006reason" +
       "\030\005 \001(\t\022\016\n\006status\030\006 \001(\t\022\021\n\teventType\030\007 \001(" +
-      "\t\022\022\n\noccurredAt\030\010 \001(\tB\002P\001b\006proto3"
+      "\t\022\022\n\noccurredAt\030\010 \001(\tB>P\001Z:github.com/ha" +
+      "ridev-eng/patient-management/proto/gen/e" +
+      "ventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -66,6 +66,10 @@ public class PatientService {
         PatientEvent event =
                 PatientEvent.newBuilder()
                         .setPatientId(savedPatient.getPatientId().toString())
+                        .setFirstName(savedPatient.getFirstName())
+                        .setLastName(savedPatient.getLastName())
+                        .setEmail(savedPatient.getEmail())
+                        .setPhone(savedPatient.getPhone())
                         .setGender(savedPatient.getGender().name())
                         .setBloodGroup(savedPatient.getBloodGroup().name())
                         .setEventType("PATIENT_CREATED")
@@ -130,9 +134,14 @@ public class PatientService {
 
         Patient updatedPatient =
                 patientRepository.save(patient);
+
         PatientEvent event =
                 PatientEvent.newBuilder()
                         .setPatientId(updatedPatient.getPatientId().toString())
+                        .setFirstName(updatedPatient.getFirstName())
+                        .setLastName(updatedPatient.getLastName())
+                        .setEmail(updatedPatient.getEmail())
+                        .setPhone(updatedPatient.getPhone())
                         .setGender(updatedPatient.getGender().name())
                         .setBloodGroup(updatedPatient.getBloodGroup().name())
                         .setEventType("PATIENT_UPDATED")

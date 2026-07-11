@@ -39,10 +39,14 @@ public final class PatientCreated {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\034events/patient_created.proto\022\006events\"l" +
-      "\n\014PatientEvent\022\021\n\tpatientId\030\001 \001(\t\022\016\n\006gen" +
-      "der\030\002 \001(\t\022\022\n\nbloodGroup\030\003 \001(\t\022\021\n\teventTy" +
-      "pe\030\004 \001(\t\022\022\n\noccurredAt\030\005 \001(\tB\002P\001b\006proto3"
+      "\n\034events/patient_created.proto\022\006events\"\257" +
+      "\001\n\014PatientEvent\022\021\n\tpatientId\030\001 \001(\t\022\021\n\tfi" +
+      "rstName\030\002 \001(\t\022\020\n\010lastName\030\003 \001(\t\022\r\n\005email" +
+      "\030\004 \001(\t\022\r\n\005phone\030\005 \001(\t\022\016\n\006gender\030\006 \001(\t\022\022\n" +
+      "\nbloodGroup\030\007 \001(\t\022\021\n\teventType\030\010 \001(\t\022\022\n\n" +
+      "occurredAt\030\t \001(\tB>P\001Z:github.com/haridev" +
+      "-eng/patient-management/proto/gen/events" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -53,7 +57,7 @@ public final class PatientCreated {
     internal_static_events_PatientEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_events_PatientEvent_descriptor,
-        new java.lang.String[] { "PatientId", "Gender", "BloodGroup", "EventType", "OccurredAt", });
+        new java.lang.String[] { "PatientId", "FirstName", "LastName", "Email", "Phone", "Gender", "BloodGroup", "EventType", "OccurredAt", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

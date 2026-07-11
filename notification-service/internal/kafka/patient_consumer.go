@@ -3,7 +3,8 @@ package kafka
 import (
 	"context"
 
-	"github.com/haridev-eng/patient-management/proto/gen/go/events"
+	"github.com/haridev-eng/patient-management/notification-service/internal/dto"
+	"github.com/haridev-eng/patient-management/proto/gen/events"
 	"google.golang.org/protobuf/proto"
 
 	"github.com/haridev-eng/patient-management/notification-service/internal/projection"
@@ -57,31 +58,29 @@ func (c *PatientConsumer) Start(
 		case "PATIENT_CREATED":
 
 			_ = c.projection.CreatePatient(
-
-				event.GetPatientId(),
-
-				event.GetFirstName(),
-
-				event.GetLastName(),
-
-				event.GetEmail(),
-
-				event.GetPhone(),
+				dto.PatientProjectionRequest{
+					ID:         event.GetPatientId(),
+					FirstName:  event.GetFirstName(),
+					LastName:   event.GetLastName(),
+					Email:      event.GetEmail(),
+					Phone:      event.GetPhone(),
+					Gender:     event.GetGender(),
+					BloodGroup: event.GetBloodGroup(),
+				},
 			)
 
 		case "PATIENT_UPDATED":
 
 			_ = c.projection.UpdatePatient(
-
-				event.GetPatientId(),
-
-				event.GetFirstName(),
-
-				event.GetLastName(),
-
-				event.GetEmail(),
-
-				event.GetPhone(),
+				dto.PatientProjectionRequest{
+					ID:         event.GetPatientId(),
+					FirstName:  event.GetFirstName(),
+					LastName:   event.GetLastName(),
+					Email:      event.GetEmail(),
+					Phone:      event.GetPhone(),
+					Gender:     event.GetGender(),
+					BloodGroup: event.GetBloodGroup(),
+				},
 			)
 
 		case "PATIENT_DELETED":

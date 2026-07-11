@@ -42,8 +42,9 @@ public final class AppointmentCompleted {
       "\n\"events/appointment_completed.proto\022\006ev" +
       "ents\"l\n\031AppointmentCompletedEvent\022\025\n\rapp" +
       "ointmentId\030\001 \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010d" +
-      "octorId\030\003 \001(\t\022\023\n\013completedAt\030\004 \001(\tB\002P\001b\006" +
-      "proto3"
+      "octorId\030\003 \001(\t\022\023\n\013completedAt\030\004 \001(\tB>P\001Z:" +
+      "github.com/haridev-eng/patient-managemen" +
+      "t/proto/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

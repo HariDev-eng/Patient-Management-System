@@ -45,8 +45,9 @@ public final class VitalsRecorded {
       "emperature\030\004 \001(\001\022\021\n\theartRate\030\005 \001(\005\022\022\n\ns" +
       "ystolicBP\030\006 \001(\005\022\023\n\013diastolicBP\030\007 \001(\005\022\016\n\006" +
       "weight\030\010 \001(\001\022\016\n\006height\030\t \001(\001\022\030\n\020oxygenSa" +
-      "turation\030\n \001(\005\022\022\n\nrecordedAt\030\013 \001(\tB\002P\001b\006" +
-      "proto3"
+      "turation\030\n \001(\005\022\022\n\nrecordedAt\030\013 \001(\tB>P\001Z:" +
+      "github.com/haridev-eng/patient-managemen" +
+      "t/proto/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

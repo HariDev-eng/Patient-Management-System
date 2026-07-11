@@ -20,7 +20,9 @@ func NewPatientProjection(
 	}
 }
 
-func (p *PatientProjection) CreatePatient(req dto.PatientProjectionRequest) error {
+func (p *PatientProjection) CreatePatient(
+	req dto.PatientProjectionRequest,
+) error {
 
 	return p.repository.Create(
 		&model.Patient{
@@ -34,16 +36,21 @@ func (p *PatientProjection) CreatePatient(req dto.PatientProjectionRequest) erro
 			Email: req.Email,
 
 			Phone: req.Phone,
+
+			Gender: req.Gender,
+
+			BloodGroup: req.BloodGroup,
 		},
 	)
 }
 
-func (p *PatientProjection) UpdatePatient(req dto.PatientProjectionRequest) error {
+func (p *PatientProjection) UpdatePatient(
+	req dto.PatientProjectionRequest,
+) error {
 
-	patient, err :=
-		p.repository.FindByID(
-			uuid.MustParse(req.ID),
-		)
+	patient, err := p.repository.FindByID(
+		uuid.MustParse(req.ID),
+	)
 
 	if err != nil {
 		return err
@@ -53,6 +60,8 @@ func (p *PatientProjection) UpdatePatient(req dto.PatientProjectionRequest) erro
 	patient.LastName = req.LastName
 	patient.Email = req.Email
 	patient.Phone = req.Phone
+	patient.Gender = req.Gender
+	patient.BloodGroup = req.BloodGroup
 
 	return p.repository.Update(patient)
 }

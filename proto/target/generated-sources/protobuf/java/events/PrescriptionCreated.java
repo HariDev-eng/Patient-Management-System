@@ -44,8 +44,9 @@ public final class PrescriptionCreated {
       "nId\030\001 \001(\t\022\021\n\tpatientId\030\002 \001(\t\022\020\n\010doctorId" +
       "\030\003 \001(\t\022\023\n\013diagnosisId\030\004 \001(\t\022\025\n\rappointme" +
       "ntId\030\005 \001(\t\022\025\n\rmedicineCount\030\006 \001(\005\022\021\n\teve" +
-      "ntType\030\007 \001(\t\022\022\n\noccurredAt\030\010 \001(\tB\002P\001b\006pr" +
-      "oto3"
+      "ntType\030\007 \001(\t\022\022\n\noccurredAt\030\010 \001(\tB>P\001Z:gi" +
+      "thub.com/haridev-eng/patient-management/" +
+      "proto/gen/eventsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

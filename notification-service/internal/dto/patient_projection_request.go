@@ -1,9 +1,17 @@
 package dto
 
 type PatientProjectionRequest struct {
-	ID        string
+	ID string
+
 	FirstName string
-	LastName  string
-	Email     string
-	Phone     string
+
+	LastName string
+
+	Email string
+
+	Phone string
+
+	Gender string
+
+	BloodGroup string
 }

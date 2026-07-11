@@ -42,7 +42,9 @@ public final class NotificationRequested {
       "\n#events/notification_requested.proto\022\006e" +
       "vents\"]\n\032NotificationRequestedEvent\022\016\n\006u" +
       "serId\030\001 \001(\t\022\r\n\005email\030\002 \001(\t\022\017\n\007subject\030\003 " +
-      "\001(\t\022\017\n\007message\030\004 \001(\tB\002P\001b\006proto3"
+      "\001(\t\022\017\n\007message\030\004 \001(\tB>P\001Z:github.com/har" +
+      "idev-eng/patient-management/proto/gen/ev" +
+      "entsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
