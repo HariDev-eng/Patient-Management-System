@@ -63,6 +63,9 @@ require (
 	golang.org/x/text v0.34.0 // indirect
 )
 
-require github.com/haridev-eng/patient-management/proto v0.0.0
+require (
+	github.com/haridev-eng/patient-management/proto v0.0.0
+	github.com/rabbitmq/amqp091-go v1.12.0
+)
 
 replace github.com/haridev-eng/patient-management/proto => ../proto

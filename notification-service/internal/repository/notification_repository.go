@@ -1,8 +1,9 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/google/uuid"
-	"github.com/haridev-eng/patient-management/notification-service/internal/db"
 	"github.com/haridev-eng/patient-management/notification-service/internal/model"
 	"gorm.io/gorm"
 )
@@ -21,7 +22,7 @@ func (r *NotificationRepository) Save(
 	notification *model.Notification,
 ) error {
 
-	return db.DB.Create(notification).Error
+	return r.db.Create(notification).Error
 }
 
 func (r *NotificationRepository) FindAll() (
@@ -31,7 +32,7 @@ func (r *NotificationRepository) FindAll() (
 
 	var notifications []model.Notification
 
-	err := db.DB.Find(&notifications).Error
+	err := r.db.Find(&notifications).Error
 
 	return notifications, err
 }
@@ -45,7 +46,7 @@ func (r *NotificationRepository) FindByID(
 
 	var notification model.Notification
 
-	err := db.DB.First(
+	err := r.db.First(
 		&notification,
 		"id = ?",
 		id,
@@ -62,5 +63,58 @@ func (r *NotificationRepository) Update(
 	notification *model.Notification,
 ) error {
 
-	return db.DB.Save(notification).Error
+	return r.db.Save(notification).Error
+}
+
+func (r *NotificationRepository) UpdateStatus(
+	id uuid.UUID,
+	status model.NotificationStatus,
+) error {
+
+	return r.db.
+		Model(&model.Notification{}).
+		Where("id = ?", id).
+		Update("status", status).
+		Error
+}
+
+func (r *NotificationRepository) MarkAsSent(
+	id uuid.UUID,
+) error {
+
+	now := time.Now()
+
+	return r.db.
+		Model(&model.Notification{}).
+		Where("id = ?", id).
+		Updates(map[string]interface{}{
+			"status":  model.StatusSent,
+			"sent_at": &now,
+		}).Error
+}
+
+func (r *NotificationRepository) MarkAsProcessing(
+	id uuid.UUID,
+) error {
+
+	return r.db.
+		Model(&model.Notification{}).
+		Where("id = ?", id).
+		Update("status", model.StatusProcessing).
+		Error
+}
+
+func (r *NotificationRepository) MarkAsFailed(
+	id uuid.UUID,
+	errorMessage string,
+) error {
+
+	return r.db.
+		Model(&model.Notification{}).
+		Where("id = ?", id).
+		Updates(map[string]interface{}{
+			"status":        model.StatusFailed,
+			"error_message": errorMessage,
+			"retry_count":   gorm.Expr("retry_count + 1"),
+		}).Error
 }
