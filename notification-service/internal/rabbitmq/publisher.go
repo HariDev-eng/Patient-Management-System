@@ -48,3 +48,23 @@ func (p *Publisher) Publish(
 
 	return nil
 }
+
+func (p *Publisher) PublishRaw(
+	ctx context.Context,
+	routingKey string,
+	body []byte,
+) error {
+
+	return p.client.Channel().PublishWithContext(
+		ctx,
+		p.client.config.Exchange,
+		routingKey,
+		false,
+		false,
+		amqp.Publishing{
+			ContentType:  "application/json",
+			DeliveryMode: amqp.Persistent,
+			Body:         body,
+		},
+	)
+}

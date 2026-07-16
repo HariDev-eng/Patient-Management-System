@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 	"github.com/haridev-eng/patient-management/notification-service/internal/model"
 	"gorm.io/gorm"
@@ -12,13 +10,22 @@ type NotificationRepository struct {
 	db *gorm.DB
 }
 
+func (r *NotificationRepository) WithTx(
+	tx *gorm.DB,
+) *NotificationRepository {
+
+	return &NotificationRepository{
+		db: tx,
+	}
+}
+
 func NewNotificationRepository(db *gorm.DB) *NotificationRepository {
 	return &NotificationRepository{
 		db: db,
 	}
 }
 
-func (r *NotificationRepository) Save(
+func (r *NotificationRepository) Create(
 	notification *model.Notification,
 ) error {
 
@@ -32,7 +39,10 @@ func (r *NotificationRepository) FindAll() (
 
 	var notifications []model.Notification
 
-	err := r.db.Find(&notifications).Error
+	err := r.db.
+		Preload("Deliveries").
+		Find(&notifications).
+		Error
 
 	return notifications, err
 }
@@ -46,11 +56,10 @@ func (r *NotificationRepository) FindByID(
 
 	var notification model.Notification
 
-	err := r.db.First(
-		&notification,
-		"id = ?",
-		id,
-	).Error
+	err := r.db.
+		Preload("Deliveries").
+		First(&notification, "id = ?", id).
+		Error
 
 	if err != nil {
 		return nil, err
@@ -64,57 +73,4 @@ func (r *NotificationRepository) Update(
 ) error {
 
 	return r.db.Save(notification).Error
-}
-
-func (r *NotificationRepository) UpdateStatus(
-	id uuid.UUID,
-	status model.NotificationStatus,
-) error {
-
-	return r.db.
-		Model(&model.Notification{}).
-		Where("id = ?", id).
-		Update("status", status).
-		Error
-}
-
-func (r *NotificationRepository) MarkAsSent(
-	id uuid.UUID,
-) error {
-
-	now := time.Now()
-
-	return r.db.
-		Model(&model.Notification{}).
-		Where("id = ?", id).
-		Updates(map[string]interface{}{
-			"status":  model.StatusSent,
-			"sent_at": &now,
-		}).Error
-}
-
-func (r *NotificationRepository) MarkAsProcessing(
-	id uuid.UUID,
-) error {
-
-	return r.db.
-		Model(&model.Notification{}).
-		Where("id = ?", id).
-		Update("status", model.StatusProcessing).
-		Error
-}
-
-func (r *NotificationRepository) MarkAsFailed(
-	id uuid.UUID,
-	errorMessage string,
-) error {
-
-	return r.db.
-		Model(&model.Notification{}).
-		Where("id = ?", id).
-		Updates(map[string]interface{}{
-			"status":        model.StatusFailed,
-			"error_message": errorMessage,
-			"retry_count":   gorm.Expr("retry_count + 1"),
-		}).Error
 }
