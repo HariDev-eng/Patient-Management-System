@@ -3,98 +3,92 @@ package dispatcher
 import (
 	"context"
 
+	"gorm.io/gorm"
+
 	"github.com/haridev-eng/patient-management/notification-service/internal/builder"
-	"github.com/haridev-eng/patient-management/notification-service/internal/model"
-	"github.com/haridev-eng/patient-management/notification-service/internal/rabbitmq"
+	"github.com/haridev-eng/patient-management/notification-service/internal/outbox"
 	"github.com/haridev-eng/patient-management/notification-service/internal/repository"
 )
 
 type Dispatcher struct {
-	builder    *builder.NotificationBuilder
-	repository *repository.NotificationRepository
-	publisher  *rabbitmq.Publisher
+	db *gorm.DB
+
+	builder *builder.NotificationBuilder
+
+	outboxBuilder *outbox.EventBuilder
+
+	notificationRepo *repository.NotificationRepository
+
+	deliveryRepo *repository.NotificationDeliveryRepository
+
+	outboxRepo *outbox.OutboxRepository
 }
 
 func NewDispatcher(
+	db *gorm.DB,
 	builder *builder.NotificationBuilder,
-	repository *repository.NotificationRepository,
-	publisher *rabbitmq.Publisher,
+	outboxBuilder *outbox.EventBuilder,
+	notificationRepo *repository.NotificationRepository,
+	deliveryRepo *repository.NotificationDeliveryRepository,
+	outboxRepo *outbox.OutboxRepository,
 ) *Dispatcher {
 
 	return &Dispatcher{
-		builder:    builder,
-		repository: repository,
-		publisher:  publisher,
+		db:               db,
+		builder:          builder,
+		outboxBuilder:    outboxBuilder,
+		notificationRepo: notificationRepo,
+		deliveryRepo:     deliveryRepo,
+		outboxRepo:       outboxRepo,
 	}
 }
+
 func (d *Dispatcher) Dispatch(
-	request builder.NotificationRequest,
+	ctx context.Context,
+	req builder.NotificationRequest,
 ) error {
 
-	for _, channel := range request.Channels {
+	return d.db.Transaction(func(tx *gorm.DB) error {
 
-		notification :=
-			d.builder.Build(
-				request,
-				channel,
-			)
+		notificationRepo := d.notificationRepo.WithTx(tx)
+		deliveryRepo := d.deliveryRepo.WithTx(tx)
+		outboxRepo := d.outboxRepo.WithTx(tx)
 
-		if err := d.repository.Save(notification); err != nil {
+		aggregate := d.builder.Build(req)
+
+		if err := notificationRepo.Create(
+			aggregate.Notification,
+		); err != nil {
 			return err
 		}
 
-		switch channel {
+		for _, delivery := range aggregate.Deliveries {
 
-		case model.ChannelEmail:
+			delivery.NotificationID =
+				aggregate.Notification.ID
 
-			msg := rabbitmq.EmailMessage{
-				NotificationID: notification.ID.String(),
-				Recipient:      notification.Recipient,
-				Subject:        notification.Subject,
-				Body:           notification.Message,
-			}
-
-			if err := d.publisher.Publish(
-				context.Background(),
-				rabbitmq.RoutingEmail,
-				msg,
+			if err := deliveryRepo.Create(
+				delivery,
 			); err != nil {
 				return err
 			}
 
-		case model.ChannelSMS:
+			event, err := d.outboxBuilder.Build(
+				aggregate.Notification,
+				delivery,
+			)
 
-			msg := rabbitmq.SMSMessage{
-				NotificationID: notification.ID.String(),
-				Phone:          notification.Recipient,
-				Message:        notification.Message,
-			}
-
-			if err := d.publisher.Publish(
-				context.Background(),
-				rabbitmq.RoutingSMS,
-				msg,
-			); err != nil {
+			if err != nil {
 				return err
 			}
 
-		case model.ChannelInApp:
-
-			msg := rabbitmq.InAppMessage{
-				NotificationID: notification.ID.String(),
-				UserID:         notification.ReferenceID,
-				Title:          notification.Subject,
-				Message:        notification.Message,
-			}
-
-			if err := d.publisher.Publish(
-				context.Background(),
-				rabbitmq.RoutingInApp,
-				msg,
+			if err := outboxRepo.Create(
+				event,
 			); err != nil {
 				return err
 			}
 		}
-	}
-	return nil
+
+		return nil
+	})
 }

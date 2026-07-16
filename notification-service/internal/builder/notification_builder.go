@@ -1,6 +1,8 @@
 package builder
 
-import "github.com/haridev-eng/patient-management/notification-service/internal/model"
+import (
+	"github.com/haridev-eng/patient-management/notification-service/internal/model"
+)
 
 type NotificationBuilder struct{}
 
@@ -10,16 +12,28 @@ func NewNotificationBuilder() *NotificationBuilder {
 
 func (b *NotificationBuilder) Build(
 	request NotificationRequest,
-	channel model.NotificationChannel,
-) *model.Notification {
+) *NotificationAggregate {
 
-	return &model.Notification{
+	notification := &model.Notification{
 		Recipient:   request.Recipient,
-		Channel:     channel,
 		EventType:   request.EventType,
 		ReferenceID: request.ReferenceID,
 		Subject:     request.Subject,
 		Message:     request.Message,
-		Status:      model.StatusPending,
+	}
+
+	deliveries := make([]*model.NotificationDelivery, 0, len(request.Channels))
+
+	for _, channel := range request.Channels {
+
+		deliveries = append(deliveries, &model.NotificationDelivery{
+			Channel: channel,
+			Status:  model.DeliveryPending,
+		})
+	}
+
+	return &NotificationAggregate{
+		Notification: notification,
+		Deliveries:   deliveries,
 	}
 }
