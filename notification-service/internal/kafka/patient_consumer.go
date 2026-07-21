@@ -2,92 +2,78 @@ package kafka
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 
 	"github.com/haridev-eng/patient-management/notification-service/internal/dto"
-	"github.com/haridev-eng/patient-management/proto/gen/events"
-	"google.golang.org/protobuf/proto"
-
 	"github.com/haridev-eng/patient-management/notification-service/internal/projection"
 )
 
 type PatientConsumer struct {
-	reader *Consumer
-
 	projection *projection.PatientProjection
 }
 
 func NewPatientConsumer(
-
-	reader *Consumer,
-
 	projection *projection.PatientProjection,
-
 ) *PatientConsumer {
-
 	return &PatientConsumer{
-		reader:     reader,
 		projection: projection,
 	}
 }
 
-func (c *PatientConsumer) Start(
+func (c *PatientConsumer) Handle(
 	ctx context.Context,
-) {
+	data []byte,
+) error {
 
-	for {
+	var event dto.Event
 
-		msg, err :=
-			c.reader.ReadMessage(ctx)
-
-		if err != nil {
-			continue
-		}
-
-		var event events.PatientEvent
-
-		if err := proto.Unmarshal(
-			msg.Value,
-			&event,
-		); err != nil {
-
-			continue
-		}
-
-		switch event.GetEventType() {
-
-		case "PATIENT_CREATED":
-
-			_ = c.projection.CreatePatient(
-				dto.PatientProjectionRequest{
-					ID:         event.GetPatientId(),
-					FirstName:  event.GetFirstName(),
-					LastName:   event.GetLastName(),
-					Email:      event.GetEmail(),
-					Phone:      event.GetPhone(),
-					Gender:     event.GetGender(),
-					BloodGroup: event.GetBloodGroup(),
-				},
-			)
-
-		case "PATIENT_UPDATED":
-
-			_ = c.projection.UpdatePatient(
-				dto.PatientProjectionRequest{
-					ID:         event.GetPatientId(),
-					FirstName:  event.GetFirstName(),
-					LastName:   event.GetLastName(),
-					Email:      event.GetEmail(),
-					Phone:      event.GetPhone(),
-					Gender:     event.GetGender(),
-					BloodGroup: event.GetBloodGroup(),
-				},
-			)
-
-		case "PATIENT_DELETED":
-
-			_ = c.projection.DeletePatient(
-				event.GetPatientId(),
-			)
-		}
+	if err := json.Unmarshal(data, &event); err != nil {
+		return err
 	}
+
+	switch event.EventType {
+
+	case PatientCreated:
+		return c.handlePatientCreated(event.Data)
+
+	case PatientUpdated:
+		return c.handlePatientUpdated(event.Data)
+
+	case PatientDeleted:
+		return c.handlePatientDeleted(event.Data)
+
+	default:
+		return fmt.Errorf("unknown event type: %s", event.EventType)
+	}
+}
+
+func (c *PatientConsumer) handlePatientCreated(data []byte) error {
+	var event dto.PatientCreatedEvent
+
+	if err := json.Unmarshal(data, &event); err != nil {
+		return err
+	}
+
+	return c.projection.CreatePatient(event)
+}
+
+func (c *PatientConsumer) handlePatientUpdated(data []byte) error {
+	var event dto.PatientUpdatedEvent
+
+	if err := json.Unmarshal(data, &event); err != nil {
+		return err
+	}
+
+	return c.projection.UpdatePatient(event)
+}
+
+func (c *PatientConsumer) handlePatientDeleted(data []byte) error {
+	var event dto.PatientDeletedEvent
+
+	if err := json.Unmarshal(data, &event); err != nil {
+		return err
+	}
+
+	return c.projection.DeletePatient(event.ID)
 }

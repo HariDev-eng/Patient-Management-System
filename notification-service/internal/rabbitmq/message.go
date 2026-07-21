@@ -3,6 +3,8 @@ package rabbitmq
 type EmailMessage struct {
 	DeliveryID string `json:"delivery_id"`
 
+	NotificationID string `json:"notification_id"`
+
 	Recipient string `json:"recipient"`
 
 	Subject string `json:"subject"`
@@ -16,6 +18,8 @@ type SMSMessage struct {
 	Phone string `json:"phone"`
 
 	Message string `json:"message"`
+
+	NotificationID string `json:"notification_id"`
 }
 
 type InAppMessage struct {
@@ -26,4 +30,6 @@ type InAppMessage struct {
 	Title string `json:"title"`
 
 	Message string `json:"message"`
+
+	NotificationID string `json:"notification_id"`
 }
