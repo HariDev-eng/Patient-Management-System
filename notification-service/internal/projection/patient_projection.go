@@ -74,3 +74,12 @@ func (p *PatientProjection) DeletePatient(
 		uuid.MustParse(id),
 	)
 }
+
+func (p *PatientProjection) FindByID(
+	id string,
+) (*model.Patient, error) {
+
+	return p.repository.FindByID(
+		uuid.MustParse(id),
+	)
+}

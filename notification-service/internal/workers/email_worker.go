@@ -14,18 +14,18 @@ import (
 )
 
 type EmailWorker struct {
-	sender     sender.Sender
-	repository *repository.NotificationRepository
+	sender       sender.Sender
+	deliveryRepo *repository.NotificationDeliveryRepository
 }
 
 func NewEmailWorker(
 	s sender.Sender,
-	r *repository.NotificationRepository,
+	deliveryRepo *repository.NotificationDeliveryRepository,
 ) *EmailWorker {
 
 	return &EmailWorker{
-		sender:     s,
-		repository: r,
+		sender:       s,
+		deliveryRepo: deliveryRepo,
 	}
 }
 
@@ -34,25 +34,21 @@ func (w *EmailWorker) Handle(
 	msg amqp.Delivery,
 ) error {
 
-	// Deserialize RabbitMQ message
 	var request rabbitmq.EmailMessage
 
 	if err := json.Unmarshal(msg.Body, &request); err != nil {
 		return fmt.Errorf("failed to unmarshal email message: %w", err)
 	}
 
-	// Parse Notification ID
-	notificationID, err := uuid.Parse(request.NotificationID)
+	deliveryID, err := uuid.Parse(request.DeliveryID)
 	if err != nil {
-		return fmt.Errorf("invalid notification id: %w", err)
+		return fmt.Errorf("invalid delivery id: %w", err)
 	}
 
-	// Mark as processing
-	if err := w.repository.MarkAsProcessing(notificationID); err != nil {
-		return fmt.Errorf("failed to mark notification as processing: %w", err)
+	if err := w.deliveryRepo.MarkAsProcessing(deliveryID); err != nil {
+		return fmt.Errorf("failed to mark delivery processing: %w", err)
 	}
 
-	// Send email
 	err = w.sender.Send(
 		ctx,
 		sender.EmailRequest{
@@ -64,21 +60,28 @@ func (w *EmailWorker) Handle(
 
 	if err != nil {
 
-		// Update status
-		if markErr := w.repository.MarkAsFailed(notificationID, err.Error()); markErr != nil {
+		if markErr := w.deliveryRepo.MarkAsFailed(
+			deliveryID,
+			err.Error(),
+		); markErr != nil {
+
 			return fmt.Errorf(
-				"send email failed: %v; additionally failed to update notification status: %w",
+				"send email failed: %v; failed updating delivery: %w",
 				err,
 				markErr,
 			)
 		}
 
-		return fmt.Errorf("failed to send email: %w", err)
+		return err
 	}
 
-	// Update status
-	if err := w.repository.MarkAsSent(notificationID); err != nil {
-		return fmt.Errorf("failed to mark notification as sent: %w", err)
+	// For MockSender we don't have a provider message id yet.
+	if err := w.deliveryRepo.MarkAsSent(
+		deliveryID,
+		"",
+	); err != nil {
+
+		return fmt.Errorf("failed to mark delivery sent: %w", err)
 	}
 
 	return nil

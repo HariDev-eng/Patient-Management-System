@@ -25,3 +25,7 @@ type Patient struct {
 
 	UpdatedAt time.Time
 }
+
+func (p Patient) FullName() string {
+	return p.FirstName + " " + p.LastName
+}
