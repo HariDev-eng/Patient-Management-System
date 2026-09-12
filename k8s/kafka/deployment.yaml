@@ -1,3 +1,18 @@
+# NOTE: Kafka in this setup is single-broker (KAFKA_NODE_ID=1, replication
+# factor 1) — without a PVC, every pod restart wiped all topics/offsets.
+# Adding a PVC so /var/lib/kafka/data (KRaft log dir) survives restarts.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-pvc
+  namespace: patient-management
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,6 +20,8 @@ metadata:
   namespace: patient-management
 spec:
   replicas: 1
+  strategy:
+    type: Recreate   # avoid two brokers writing to the same PVC
   selector:
     matchLabels:
       app: kafka
@@ -37,10 +54,22 @@ spec:
               value: "1@kafka:9093"
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "1"
+            # KRaft's default log dir; must match the volumeMount path below
+            - name: KAFKA_LOG_DIRS
+              value: "/var/lib/kafka/data"
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xmx512m -Xms512m"
+          volumeMounts:
+            - name: kafka-storage
+              mountPath: /var/lib/kafka/data
           resources:
             requests:
-              memory: "400Mi"
+              memory: "512Mi"
               cpu: "200m"
             limits:
-              memory: "600Mi"
+              memory: "1Gi"
               cpu: "400m"
+      volumes:
+        - name: kafka-storage
+          persistentVolumeClaim:
+            claimName: kafka-pvc

@@ -26,13 +26,13 @@ spec:
                   key: DOCTOR_DB_URL
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: app-config
+                secretKeyRef:
+                  name: app-secrets
                   key: DB_USERNAME
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: app-config
+                secretKeyRef:
+                  name: app-secrets
                   key: DB_PASSWORD
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               valueFrom:
@@ -41,8 +41,8 @@ spec:
                   key: KAFKA_BOOTSTRAP_SERVERS
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: 256Mi
+              cpu: 200m
             limits:
-              memory: "400Mi"
-              cpu: "400m"
+              memory: 400Mi
+              cpu: 400m

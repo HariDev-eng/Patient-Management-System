@@ -45,6 +45,17 @@ spec:
                   name: app-secrets
                   key: DB_PASSWORD
 
+            - name: PATIENT_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PATIENT_SERVICE_HOST
+            - name: PATIENT_SERVICE_GRPC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PATIENT_SERVICE_GRPC_PORT
+
             # Without this, Hibernate can't figure out which SQL dialect to use
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"

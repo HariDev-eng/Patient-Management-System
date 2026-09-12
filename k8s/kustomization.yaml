@@ -1,0 +1,65 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: patient-management
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - postgres/init-configmap.yaml
+  - postgres/deployment.yaml
+  - postgres/service.yaml
+  - kafka/deployment.yaml
+  - kafka/service.yaml
+  - kafka-ui/deployment.yaml
+  - kafka-ui/service.yaml
+  - auth-service/deployment.yaml
+  - auth-service/service.yaml
+  - patient-service/deployment.yaml
+  - patient-service/service.yaml
+  - doctor-svc/deployment.yaml
+  - doctor-svc/service.yaml
+  - appointment-service/deployment.yaml
+  - appointment-service/service.yaml
+  - billing-service/deployment.yaml
+  - billing-service/service.yaml
+  - analytics-service/deployment.yaml
+  - analytics-service/service.yaml
+  - diagnosis-svc/deployment.yaml
+  - diagnosis-svc/service.yaml
+  - inventory-service/deployment.yaml
+  - inventory-service/service.yaml
+  - nurse-service/deployment.yaml
+  - nurse-service/service.yaml
+  - prescription-service/deployment.yaml
+  - prescription-service/service.yaml
+  - api-gateway/deployment.yaml
+  - api-gateway/service.yaml
+  - ingress.yaml
+
+# Central place to pin every image to one git-sha build.
+# deploy.sh rewrites all "newTag:" lines below in one shot.
+images:
+  - name: haripradap09/analytics-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/api-gateway
+    newTag: 344bef1-dirty
+  - name: haripradap09/appointment-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/auth-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/billing-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/diagnosis-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/doctor-svc
+    newTag: 344bef1-dirty
+  - name: haripradap09/inventory-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/nurse-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/patient-service
+    newTag: 344bef1-dirty
+  - name: haripradap09/prescription-service
+    newTag: 344bef1-dirty

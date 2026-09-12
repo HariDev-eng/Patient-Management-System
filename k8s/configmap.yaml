@@ -29,3 +29,6 @@ data:
   BILLING_SERVICE_URL: "http://billing-service:4001"
   DOCTOR_SERVICE_URL: "http://doctor-svc:4006"
   APPOINTMENT_SERVICE_URL: "http://appointment-service:4007"
+
+  PATIENT_SERVICE_HOST: "patient-service"
+  PATIENT_SERVICE_GRPC_PORT: "9001"
