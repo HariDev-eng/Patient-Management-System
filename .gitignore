@@ -3,3 +3,14 @@
 /.idea
 effective-pom.xml
 patient-management.iml
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local overrides
+docker-compose.override.yml
+
+# IDE secrets
+*.local

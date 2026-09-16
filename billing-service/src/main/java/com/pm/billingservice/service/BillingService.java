@@ -145,8 +145,6 @@ public class BillingService {
                         .build();
 
         billingProducer.publishBillDeleted(event);
-
-        billingRepository.delete(bill);
     }
 //
 //    public void createBillingFromAppointment(

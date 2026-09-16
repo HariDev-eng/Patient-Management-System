@@ -15,6 +15,7 @@ import src.main.java.com.pm.prescriptiosvc.repository.PrescriptionRepository;
 import src.main.java.com.pm.prescriptiosvc.service.PrescriptionService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -77,8 +78,7 @@ class PrescriptionSvcApplicationTests {
 
         item.setPrescription(prescription);
 
-        prescription.setItems(List.of(item));
-
+        prescription.setItems(new ArrayList<>(List.of(item)));
         return prescription;
     }
 
