@@ -42,24 +42,24 @@ resources:
 # deploy.sh rewrites all "newTag:" lines below in one shot.
 images:
   - name: haripradap09/analytics-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/api-gateway
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/appointment-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/auth-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/billing-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/diagnosis-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/doctor-svc
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/inventory-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/nurse-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/patient-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
   - name: haripradap09/prescription-service
-    newTag: 954acfc-dirty
+    newTag: 43a757e
