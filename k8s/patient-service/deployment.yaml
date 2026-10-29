@@ -48,19 +48,28 @@ spec:
               value: "billing-service"
             - name: BILLING_SERVICE_GRPC_PORT
               value: "9001"
-          readinessProbe:
+          startupProbe:
             httpGet:
-              path: /actuator/health/readiness
+              path: /actuator/health
               port: 4000
-            initialDelaySeconds: 30
+            failureThreshold: 30
             periodSeconds: 10
-            failureThreshold: 3
+            timeoutSeconds: 2
+
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 4000
-            initialDelaySeconds: 60
             periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 4000
+            periodSeconds: 10
+            timeoutSeconds: 2
             failureThreshold: 3
           resources:
             requests:
